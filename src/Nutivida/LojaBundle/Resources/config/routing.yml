@@ -1,0 +1,3 @@
+nutivida_loja_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: NutividaLojaBundle:Default:index }

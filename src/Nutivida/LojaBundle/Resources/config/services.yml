@@ -1,0 +1,4 @@
+services:
+#    nutivida_loja.example:
+#        class: Nutivida\LojaBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
