@@ -1,0 +1,42 @@
+<?php
+
+namespace Nutrivida\LojaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EmpresaImagem
+ *
+ * @ORM\Table(name="empresa_imagem", indexes={@ORM\Index(name="FK__empresa", columns={"empresa"})})
+ * @ORM\Entity
+ */
+class EmpresaImagem
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nome", type="string", length=150, nullable=false)
+     */
+    private $nome;
+
+    /**
+     * @var \Empresa
+     *
+     * @ORM\ManyToOne(targetEntity="Empresa")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="empresa", referencedColumnName="id")
+     * })
+     */
+    private $empresa;
+
+
+}

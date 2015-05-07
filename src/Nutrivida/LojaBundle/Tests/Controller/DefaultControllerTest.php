@@ -1,6 +1,6 @@
 <?php
 
-namespace Nutivida\LojaBundle\Tests\Controller;
+namespace Nutrivida\LojaBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

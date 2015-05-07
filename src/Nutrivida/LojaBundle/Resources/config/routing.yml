@@ -1,0 +1,3 @@
+nutrivida_loja_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: NutrividaLojaBundle:Default:index }
