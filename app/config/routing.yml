@@ -1,11 +1,10 @@
-nutrivida_loja:
-    resource: "@NutrividaLojaBundle/Resources/config/routing.yml"
-    prefix:   /
-
-nutivida_loja:
-    resource: "@NutividaLojaBundle/Resources/config/routing.yml"
-    prefix:   /
-
-app:
-    resource: "@AppBundle/Controller/"
+nutrivida_admin:
+    resource: "@NutrividaLojaBundle/Controller/Admin/"
     type:     annotation
+    prefix:   /admin
+    
+nutrivida_loja:
+    resource: "@NutrividaLojaBundle/Controller/Loja/"
+    type:     annotation
+    prefix:   /
+

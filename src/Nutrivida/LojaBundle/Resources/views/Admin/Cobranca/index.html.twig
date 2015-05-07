@@ -1,0 +1,278 @@
+{% extends "SindilojasCobrancaBundle::layout.html.twig" %}
+{% block title %}Sindilojas Litoral Centro | Ficha do cliente{% endblock %}
+{% block head %}
+    
+    <link href="{{ asset('bundles/sindilojas/css/style.datatables.css') }}" rel="stylesheet">
+    <script src="{{ asset('bundles/sindilojas/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/jquery-datatables.responsive.js') }}"></script>
+    <script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script src="{{ asset('bundles/sindilojas/js/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/jquery.maskedinput.min.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/jquery.maskMoney.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/jquery-ui-1.10.3.min.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/messages_ptbr.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/validate/additional-methods.js') }}"></script>
+    <script src="{{ asset('bundles/sindilojas/js/bootbox.min.js') }}"></script>
+    
+    <script>
+        var htmlDarBaixa = "";
+        jQuery(document).ready(function(){            
+            jQuery.get("{{ path("_html_dar_baixa") }}", function(html) {
+                htmlDarBaixa = html;
+            });
+        });
+        
+        function detalhesDivida(id)
+        {
+            jQuery(".locked").fadeIn();
+            jQuery(".negociacao").remove();
+            jQuery.post('{{ path('_detalhes_divida')}}', {id: id}, callbackDetalhesDividas);
+        }
+        
+        function callbackCarregaDividas(data) 
+        {
+            jQuery(".dividas, .registros, .negociacao").remove();
+            jQuery(".contentpanel").append(data);
+            jQuery("#inserirRegistro").click(inseriRegistro);
+            
+            jQuery(".locked").fadeOut();
+        }
+        
+        function callbackDetalhesDividas(data) 
+        {
+            jQuery(".negociacao").remove();
+            jQuery(data).insertBefore(".registros");
+            jQuery('#numParcelas').keyup(function(){
+                var valor = jQuery(this).val();
+                jQuery(this).val(valor.replace(/[^\d]/gi, ""));
+                atualizaValorParcela();
+            }).spinner({ min:1, spin:function(){ setTimeout(atualizaValorParcela, 100) }  });
+
+            jQuery("#entrada, #valorAtual").keyup(atualizaValorParcela).maskMoney({thousands:'.', decimal:','});
+            jQuery("#vencimento").mask("99/99/9999").datepicker();
+            //jQuery("span.ui-spinner ").addClass("input-group");
+            jQuery("#formNegociacao").validate({
+                rules: {
+                    vencimento:  {brazilianDate: true}
+                },
+                errorPlacement: function(error, element) {
+                    jQuery(element).closest('.form-group').append(error);
+                },
+                highlight: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-error');
+                },
+                submitHandler: function(form) {
+                    jQuery(".locked").fadeIn();
+                    var f = jQuery(form);
+                    var valorAtual = jQuery("#valorAtual").maskMoney('unmasked')[0];
+                    var valorEntrada = jQuery("#entrada").maskMoney('unmasked')[0];
+                    jQuery("#valorAtual").maskMoney('destroy');
+                    jQuery("#entrada").maskMoney('destroy');
+                    jQuery("#valorAtual").val(valorAtual);
+                    jQuery("#entrada").val(valorEntrada);
+                    jQuery.post('{{ path('_cobranca_inseri_negociacao')}}', f.serialize(), callbackGeraParcelas);
+                    return false;
+               }
+            });
+            jQuery('.tooltips').tooltip({ container: 'body'});
+            jQuery(".locked").fadeOut();
+        }
+        
+        function callbackGeraParcelas(data) 
+        {
+            jQuery(".negociacao").remove();
+            jQuery(data).insertBefore(".registros");
+            jQuery(".locked").fadeOut();
+        }
+        
+        function inseriRegistro() 
+        {
+            if (jQuery("#textRegistro").val()!="") {
+                jQuery(".locked").fadeIn();
+                jQuery.post('{{ path('_inserir_registro')}}', {id: jQuery("#idCliente").val(), texto: jQuery("#textRegistro").val()}, callbackInseriRegistro);
+            }
+        }
+        
+        function darBaixa(idParcela) 
+        {
+            bootbox.dialog({
+                            title: "Preencha os campos",
+                            message: htmlDarBaixa,
+                        buttons: {
+                            close: {
+                                label: "Cancelar",
+                                className: "btn-default",
+                            },
+                            success: {
+                                label: "Dar baixa",
+                                className: "btn-success",
+                                callback: function () {
+                                    var vencimento  = jQuery('#vencimentoBaixa').val();
+                                    var valor       = jQuery("#valorBaixa").maskMoney('unmasked')[0];
+                                    var tipo        = jQuery("input[name='tipo']:checked").val();;
+                                    var modo        = jQuery("input[name='modo']:checked").val();;
+                                    if (vencimento != "" && valor != "0") {
+                                        if (validaData(vencimento)) {
+                                            alert("Retirada de SPC");
+                                            jQuery(".locked").fadeIn();
+                                            jQuery.post('{{ path('_dar_baixa')}}', {id: idParcela, data: vencimento, valor: valor, tipo: tipo, modo: modo}, callbackGeraParcelas);
+                                        } else {
+                                            bootbox.alert("Data inválida");
+                                            return false;
+                                        }
+                                    } else {
+                                        bootbox.alert("Preencha todos os campos");
+                                        return false;
+                                    }
+                                }
+                            },
+                        }
+                    }
+            );
+            jQuery("#vencimentoBaixa").mask("99/99/9999").datepicker();
+            jQuery("#valorBaixa").maskMoney({thousands:'.', decimal:','});
+        }
+        
+        function callbackInseriRegistro(data) 
+        {
+            jQuery(".registros").remove();
+            jQuery(".contentpanel").append(data);
+            jQuery("#inserirRegistro").click(inseriRegistro);
+            jQuery(".locked").fadeOut();
+        }
+        
+        function atualizaValorParcela() 
+        {
+            var total = jQuery("#valorAtual").maskMoney('unmasked')[0];
+            var entrada = jQuery("#entrada").maskMoney('unmasked')[0];
+            var parcelas = jQuery("#numParcelas").val();
+             
+            if (parcelas>0 && total>0) {
+                total = total-entrada;
+                var valorParcela = total/parcelas;
+                jQuery("#valorParcela").text(Math.round(valorParcela * 100) / 100);
+            } else {
+                jQuery("#valorParcela").text("");
+            }
+             
+        }
+                
+        function renegociar(idDivida)
+        {
+            bootbox.confirm("Tem certeza que deseja renegociar essa dívida?", function(result) {
+                if (result) {
+                    jQuery(".locked").fadeIn();
+                    jQuery.post('{{ path('_detalhes_divida')}}', {id: idDivida, renegociacao: 1}, callbackDetalhesDividas);
+                    //jQuery.post('{{ path('_renegociar')}}', {idDivida: idDivida}, callbackRenegociar);    
+                }
+            }); 
+        }
+        
+        function alterarVencimento(idParcela, data)
+        {
+            bootbox.dialog({
+                        title: "Alterar data de vencimento",
+                        message: '<div class="row"> ' +
+                                '<div class="col-md-12"> ' +
+                                '<form class="form-horizontal"> ' +
+                                '<div class="form-group"> ' +
+                                '<label class="col-md-4 control-label" for="name">Nova data</label> ' +
+                                '<div class="col-md-4"> ' +
+                                '<input id="novadata" name="novadata" type="text" value="'+data+'" class="form-control input-md"> ' +
+                                '</div> </div> </form> </div> </div>',
+                        buttons: {
+                            close: {
+                                label: "Cancelar",
+                                className: "btn-default",
+                            },
+                            success: {
+                                label: "Alterar",
+                                className: "btn-success",
+                                callback: function () {
+                                    var novadata = jQuery('#novadata').val();
+                                    if (novadata != "" && validaData(novadata)) {
+                                        jQuery(".locked").fadeIn();
+                                        jQuery.post('{{ path('_alterar_vencimento')}}', {id: idParcela, novadata: novadata}, callbackGeraParcelas);
+                                    } else {
+                                        bootbox.alert("Insira uma data válida");
+                                        return false;
+                                    }
+                                }
+                            },
+                        }
+                    });
+           jQuery('#novadata').mask('99/99/9999').datepicker();
+        }
+        
+        function callbackRenegociar(data)
+        {
+            jQuery(".locked").fadeOut();
+            detalhesDivida(data);
+        }
+        
+        function validaData(data)
+        {
+            var data = data;
+            var dia = data.substring(0,2)
+            var mes = data.substring(3,5)
+            var ano = data.substring(6,10)
+
+            //Criando um objeto Date usando os valores ano, mes e dia.
+            var novaData = new Date(ano,(mes-1),dia);
+
+            var mesmoDia = parseInt(dia,10) == parseInt(novaData.getDate());
+            var mesmoMes = parseInt(mes,10) == parseInt(novaData.getMonth())+1;
+            var mesmoAno = parseInt(ano) == parseInt(novaData.getFullYear());
+
+            if (!((mesmoDia) && (mesmoMes) && (mesmoAno))) {
+                return false;
+            } 
+            return true;
+        }
+        function buscaCliente()
+        {
+            jQuery(".locked").fadeIn();
+            jQuery.post('{{ path('_cobranca_dividas')}}', {cpf: jQuery("#cpf").val()}, callbackCarregaDividas);
+        }
+       
+    </script>
+{% endblock %}
+{% block mainpanel %}
+    <div class="pageheader">
+        <div class="media">
+            <div class="pageicon pull-left">
+                <i class="fa fa-th-list"></i>
+            </div>
+            <div class="media-body">
+                <ul class="breadcrumb">
+                    <li><a href="{{ path('_index') }}"><i class="glyphicon glyphicon-home"></i></a></li>
+                    <li><a href="{{ path('_clientes') }}">Clientes</a></li>
+                    <li>Ficha do Cliente</li>
+                </ul>
+                <h4>Ficha do Cliente</h4>
+            </div>
+        </div><!-- media -->
+    </div><!-- pageheader -->
+     <div class="contentpanel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Buscar Cliente</h4>
+            </div><!-- panel-heading -->
+            <div class="panel-body">
+                <p>Insira o CPF/CNPJ do cliente abaixo.</p>
+                <label>CPF/CNPJ</label>
+                <div class="input-group mb15">
+                    <div>
+                        <input type="text" class="form-control" id="cpf">
+                        <button onclick="buscaCliente()" class="btn btn-primary mr5">Buscar</button>
+                    </div>
+                </div><!-- input-group -->
+
+            </div><!-- panel-body -->
+        </div>
+     </div><!-- contentpanel -->
+{% endblock %}

@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <link href="{{ asset('bundles/sindilojas/css/style.default.css') }}" rel="stylesheet">
+        <script>
+            window.onLoad = window.print()
+        </script>
+        <style>
+            @media print{
+                .pageBreak {
+                    page-break-before: always;
+                }
+            }
+            .pageBreak {
+                    page-break-before: always;
+                    height: 1px;
+                    width: 100%;
+                    display: block;
+                }
+        </style>
+    </head>
+    <body style="margin: 0 auto; width: 980px;">
+        {% for parcela in negociacao.getParcelas() %}
+            <table style="margin: 0 50px; width: 90%">
+            <thead>
+                <tr>
+                    <th style="text-align: center" colspan="2">
+                        <br/>
+                        <img width="180" src="{{ asset('bundles/sindilojas/images/image00.png') }}" />
+                        <br/><br/>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <td style="width: 50%">
+                        Nº {{ parcela.getPromissoria }}/{{ negociacao.getNumeroParcelas }}
+                        <br/><br/>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        Vencimento, {{ parcela.getVencimento().format("d/m/Y") }}
+                        <br/><br/>
+                    </td>
+                </tr>
+                <tr style="text-align: right">
+                    <td colspan="2">
+                        Valor, R$ {{ parcela.getValor()|number_format(2, ',', '.') }}
+                        <br/><br/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <p>
+                            Aos {{ parcela.getVencimento().format("d")|valorExtenso(false) }} dias do mês de {{ parcela.getVencimento().format("n")|getStringMes() }} de {{ parcela.getVencimento().format("Y")|valorExtenso(false) }}, pagarei por esta única via de NOTA PROMISSÓRIA à {{ negociacao.getDivida.getLoja.getNome }} CNPJ {{ negociacao.getDivida.getLoja.getCnpj|mask('##.###.###/####-##') }} ou a sua ordem a quantia de {{ parcela.getValor()|number_format(2, ',', '.') }} ({{ parcela.getValor|valorExtenso(false) }}) em moeda corrente nacional.
+                        </p>
+                        <br/><br/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Pagável em SINDILOJAS
+                        <br/>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        Osório, {{ hoje.format("d/m/Y") }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        Emitente: {{ negociacao.getDivida.getCliente.getNome }}
+                        <br/>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%">
+                        CPF: {{ negociacao.getDivida.getCliente.getCpf|mask('###.###.###-##') }}
+                        <br/>
+                    </td>
+                    <td style="text-align: right; width: 50%">
+                        __________________________
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 70%">
+                        Endereço: {{ "CEP: " ~ negociacao.getDivida.getCliente.getCep ~ " - " ~ negociacao.getDivida.getCliente.getUf ~ " - " ~ negociacao.getDivida.getCliente.getCidade ~ ", " ~ negociacao.getDivida.getCliente.getRua ~ ", " ~ negociacao.getDivida.getCliente.getNumero }}
+                        <br/>
+                        {{ negociacao.getDivida.getCliente.getTelefone() }}
+                    </td>
+                    <td style="text-align: right; width: 30%">
+                        {{ negociacao.getDivida.getCliente.getNome }}
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="2" style="border-bottom: 2px solid #000">
+                       <br/><br/>
+                    </td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+        {% if loop.index is divisible by(3) and negociacao.getParcelas()|length > loop.index %}
+            <div class="pageBreak"></div>
+        {% endif %}
+        {% endfor %}
+    </body>
+</html>

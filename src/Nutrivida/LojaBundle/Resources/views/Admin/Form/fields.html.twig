@@ -1,0 +1,56 @@
+
+
+{% block _cliente_dividas_row %}
+    <div class="row">
+        {{ form_widget(form, { 'attr': {'class': 'row'} }) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock _cliente_dividas_row %}
+
+
+            
+{% block _cliente_cobrancaJudicial_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _cliente_cobrancaJudicial_widget %}
+
+{% block radio_widget %}
+{% spaceless %}
+    <div class="radio">
+        <label  for="{{ id }}"><input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />{{ label|trans }}</label>
+    </div>
+{% endspaceless %}
+{% endblock radio_widget %}
+
+
+{% block form_row %}
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{ form_label(form) }}
+            {% if required %}
+                <span class="asterisk">*</span>
+            {% endif %}
+        </label>
+        <div class="col-sm-5">
+            {{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        {{ form_errors(form) }}
+    </div>
+{% endblock form_row %}
+
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+            <label class="error">{{ error.message }}</label>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
