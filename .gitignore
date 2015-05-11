@@ -9,4 +9,6 @@
 /composer.phar
 /vendor/
 /web/bundles/
-/nbproject/private/
+/nbproject/
+/web/uploads/*
+!web/uploads/.gitkeep

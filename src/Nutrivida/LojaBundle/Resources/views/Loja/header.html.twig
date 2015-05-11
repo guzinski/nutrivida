@@ -1,0 +1,68 @@
+            <div class="header_top">
+                <div class="container">
+                    <div class="header_top_left">
+                        <p>+55 51 3661.4734</p>
+                    </div>
+                    <div class="header_top_right">
+                        <ul class="header_user_info" style="padding:2px 0 5px 0">
+                            <a href="#" class="login">
+                                <i class="user"></i> 
+                                <li class="user_desc">Minha Conta</li>
+                            </a>
+                            <div class="clearfix"> </div>
+                        </ul>
+                        <div class="main-search">
+                            <form action="search.html">
+                                <input type="text" value="Pesquisar" onFocus="this.value = '';" onBlur="if (this.value == '') {
+                                    this.value = 'Search';
+                                }" class="text"/>
+                                <input type="submit" value=""/>
+                            </form>
+                            <div class="close"><img src="{{ asset('bundles/nutrividaloja/loja/images/close.png') }}" /></div>
+                        </div>
+                        <div class="srch"><button></button></div>
+                        <div class="clearfix"> </div>
+                        <script type="text/javascript">
+                            $('.main-search').hide();
+                            $('button').click(function () {
+                                $('.main-search').show();
+                                $('.main-search text').focus();
+                            }
+                            );
+                            $('.close').click(function () {
+                                $('.main-search').hide();
+                            });
+                        </script>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <div class="header_bottom">
+                <div class="container">	 			
+                    <div class="logo">
+                        <a href="index.html"><img src="{{ asset('bundles/nutrividaloja/loja/images/logo.png') }}" alt=""/></a>
+                    </div>	
+                    <div class="header_bottom_right">
+                        <div class="h_menu4">
+                            {{ render(controller('NutrividaLojaBundle:Loja/Default:rederMenu')) }}
+                        </div><!-- end h_menu4 -->
+                        <div class="shopping_cart">
+                            <ul class="shopping_cart_top">
+                                <a href="#">
+                                    <li class="shop_left">Meu Carrinho</li>
+                                    <li class="shop_right"><img src="{{ asset('bundles/nutrividaloja/loja/images/arrow1.png') }}" alt=""/></li>
+                                    <div class="clearfix"></div>	
+                                </a>
+                            </ul>
+                            <ul class="shopping_bag">
+                                <a href="#">
+                                    <li class="bag_left"><img src="{{ asset('bundles/nutrividaloja/loja/images/bag.png') }}" alt=""/></li>
+                                    <li class="bag_right"> 0 Items | R$  0</li>
+                                    <div class="clearfix"></div>	
+                                </a>
+                            </ul>		
+                        </div>
+                        <div class="clearfix"></div>		   
+                    </div>
+                </div>
+            </div>

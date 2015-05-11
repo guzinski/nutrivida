@@ -2,7 +2,10 @@
 
 namespace Nutrivida\LojaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Empresa
@@ -24,7 +27,7 @@ class Empresa
     /**
      * @var integer
      *
-     * @ORM\Column(name="nome", type="integer", nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $nome;
 
@@ -33,18 +36,17 @@ class Empresa
      *
      * @ORM\Column(name="descricao", type="text", nullable=false)
      */
-    
     private $descricao;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     * @OneToMany(targetEntity="EmpresaImagem", mappedBy="empresa")
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="EmpresaImagem", mappedBy="empresa", cascade={"all"})
      **/
     private $imagens;
 
-    function __construct( $imagens)
+    function __construct()
     {
-        $this->setImagens(new \Doctrine\Common\Collections\ArrayCollection());
+        $this->setImagens(new ArrayCollection());
     }
 
     
@@ -107,7 +109,7 @@ class Empresa
     /**
      * Get imagens
      * 
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     function getImagens()
     {
@@ -117,9 +119,9 @@ class Empresa
     /**
      * Set imagens
      * 
-     * @param \Doctrine\Common\Collections\Collection $imagens
+     * @param Collection $imagens
      */
-    function setImagens(\Doctrine\Common\Collections\Collection $imagens)
+    function setImagens(Collection $imagens)
     {
         $this->imagens = $imagens;
     }

@@ -1,0 +1,98 @@
+{% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
+{% block title %}Nutrivida Tramandaí RS{% endblock %}
+{% block head %}
+    <script src="{{ asset('bundles/nutrividaloja/loja/js/responsiveslides.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/loja/js/easyResponsiveTabs.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#slider").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+                pager: true,
+            });
+            jQuery('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true   // 100% fit in a container
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="slider">
+    <div class="callbacks_container">
+        <ul class="rslides" id="slider">
+            {% for banner in banners %}
+            <li><img src="{% path banner.media, 'banner' %}" class="img-responsive" alt=""/></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+        
+<div class="column_center">
+  <div class="container">
+	<div class="search">
+	  <div class="stay">Assine nossa newsletter</div>
+	  <div class="stay_right">
+		  <input type="text" value="E-mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your email address';}">
+		  <input type="submit" value="">
+	  </div>
+	  <div class="clearfix"> </div>
+	</div>
+	<ul class="social">
+	  <li class="find">Encontre-nos</li>
+	  <li><a href="#"> <i class="fb"> </i> </a></li>
+	  <li><a href="#"> <i class="tw"> </i> </a></li>
+	  <li><a href="#"> <i class="dribble"> </i></a></li>
+	  <div class="clearfix"> </div>
+	</ul>
+	<div class="clearfix"> </div>
+  </div>
+</div>
+
+        
+        <div class="sap_tabs">	
+            <div class="m_3"><span class="left_line"> </span><h3>Produtos em destaque</h3><span class="right_line"> </span></div>
+            <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                <ul class="resp-tabs-list">
+                    {% for categoria in categorias %}
+                    <li class="resp-tab-item" aria-controls="tab_item-{{ loop.index }}" role="tab"><span>{{ categoria.getNome }}</span></li>
+                    {% endfor %}
+                    <div class="clear"></div>
+                </ul>				  	 
+                <div class="resp-tabs-container">
+                    {% for categoria in categorias %}
+                    <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-{{ loop.index }}">
+                        <ul class="tab_img">
+                            {% for produto in categoria.getProdutos %}
+                            <li class="last">
+                                <div class="view view-first">
+                                    <img src="{{ asset('bundles/nutrividaloja/loja/images/img-teste.jpg') }}" class="img-responsive" alt=""/>
+                                    <div class="mask">
+                                        <div class="info"> </div>
+                                    </div>
+                                    <div class="tab_desc">
+                                        <h3><a href="single.html">{{ produto.getNome }}</a></h3>
+                                        <p>R$ {{ produto.getValor|number_format(2, ',', '.') }}</p>
+                                        <a href="#" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
+                                    </div>
+                                </div>
+                                {% if produto.desconto %} <div class="sale-box"> </div> {% endif %}
+                            </li>
+                            {% endfor %}
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>	
+            </div>
+        </div>
+
+{% endblock %}
+

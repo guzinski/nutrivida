@@ -1,15 +1,4 @@
-
-
-{% block _cliente_dividas_row %}
-    <div class="row">
-        {{ form_widget(form, { 'attr': {'class': 'row'} }) }}
-        {{ form_errors(form) }}
-    </div>
-{% endblock _cliente_dividas_row %}
-
-
-            
-{% block _cliente_cobrancaJudicial_widget %}
+{% block _banner_ativo_widget %}
 {% spaceless %}
     {% if expanded %}
         <div>
@@ -19,7 +8,46 @@
         </div>
     {% endif %}
 {% endspaceless %}
-{% endblock _cliente_cobrancaJudicial_widget %}
+{% endblock _banner_ativo_widget %}
+
+{% block _produto_ativo_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _produto_ativo_widget %}
+
+{% block _produto_desconto_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _produto_desconto_widget %}
+
+{% block _produto_destaqueCategoria_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _produto_destaqueCategoria_widget %}
+
+
+
 
 {% block radio_widget %}
 {% spaceless %}
@@ -54,3 +82,6 @@
         {% endif %}
     {% endspaceless %}
 {% endblock form_errors %}
+
+
+

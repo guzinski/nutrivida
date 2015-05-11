@@ -1,0 +1,15 @@
+<a class="toggleMenu" href="#">Menu</a>
+<ul class="nav">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#">Produtos</a>
+        <ul>
+            {% for categoria in categorias %}
+            <li><a href="products.html">{{ categoria.getNome }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li><a href="#">Sobre a NutriVida</a></li>
+    <li><a href="contact.html">Contato</a></li>
+</ul>
+<script src="{{ asset('bundles/nutrividaloja/loja/js/nav.js') }}"></script>
+

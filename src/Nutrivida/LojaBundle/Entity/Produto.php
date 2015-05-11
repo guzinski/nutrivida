@@ -2,7 +2,10 @@
 
 namespace Nutrivida\LojaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Produto
@@ -53,14 +56,42 @@ class Produto
     private $categoria;
     
     /**
+     * @var int
+     *
+     * @ORM\Column(name="destaque_categoria", type="integer", nullable=false)
+     */
+    private $destaqueCategoria = 0;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $ativo = 0;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $desconto = 0;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
-     * @OneToMany(targetEntity="ProdutoImagem", mappedBy="produto")
+     *
+     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="produtos")
+     */
+    private $pedidos;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="ProdutoImagem", mappedBy="produto", fetch="EAGER", cascade={"all"})
      **/
     private $imagens;
     
     function __construct()
     {
-        $this->setImagens(new \Doctrine\Common\Collections\ArrayCollection());
+        $this->setImagens(new ArrayCollection());
     }    
 
     /**
@@ -145,10 +176,10 @@ class Produto
     /**
      * Set categoria
      *
-     * @param \Nutrivida\LojaBundle\Entity\Categoria $categoria
+     * @param Categoria $categoria
      * @return Produto
      */
-    public function setCategoria(\Nutrivida\LojaBundle\Entity\Categoria $categoria = null)
+    public function setCategoria(Categoria $categoria = null)
     {
         $this->categoria = $categoria;
 
@@ -158,7 +189,7 @@ class Produto
     /**
      * Get categoria
      *
-     * @return \Nutrivida\LojaBundle\Entity\Categoria 
+     * @return Categoria 
      */
     public function getCategoria()
     {
@@ -168,7 +199,7 @@ class Produto
     /**
      * Get imagens
      * 
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     function getImagens()
     {
@@ -178,11 +209,55 @@ class Produto
     /**
      * Set imagens
      * 
-     * @param \Doctrine\Common\Collections\Collection $imagens
+     * @param Collection $imagens
      */
-    function setImagens(\Doctrine\Common\Collections\Collection $imagens)
+    function setImagens(Collection $imagens)
     {
         $this->imagens = $imagens;
     }
+    
+    
+    function getDestaqueCategoria()
+    {
+        return $this->destaqueCategoria;
+    }
+
+    function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    function setDestaqueCategoria($destaqueCategoria)
+    {
+        $this->destaqueCategoria = $destaqueCategoria;
+    }
+
+    function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+    function getDesconto()
+    {
+        return $this->desconto;
+    }
+
+    function getPedidos()
+    {
+        return $this->pedidos;
+    }
+
+    function setDesconto($desconto)
+    {
+        $this->desconto = $desconto;
+    }
+
+    function setPedidos(\Doctrine\Common\Collections\Collection $pedidos)
+    {
+        $this->pedidos = $pedidos;
+    }
+
+
+
 
 }

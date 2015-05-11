@@ -1,25 +1,28 @@
-{% extends "SindilojasCobrancaBundle::layout.html.twig" %}
-{% block title %}Sindilojas Litoral Centro | Clientes{% endblock %}
+{% extends "NutrividaLojaBundle:Admin:layout.html.twig" %}
+{% block title %}Nutrivida | Clientes{% endblock %}
 {% block head %}
-    <link href="{{ asset('bundles/sindilojas/css/style.datatables.css') }}" rel="stylesheet">
-    <script src="{{ asset('bundles/sindilojas/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('bundles/sindilojas/js/jquery-datatables.responsive.js') }}"></script>
+    <link href="{{ asset('bundles/nutrividaloja/admin/css/style.datatables.css') }}" rel="stylesheet">
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-datatables.responsive.js') }}"></script>
     <script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-    <script src="{{ asset('bundles/sindilojas/js/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/select2.min.js') }}"></script>
+    
     <script>
+        var exRowTable;
         jQuery(document).ready(function(){
-            var exRowTable = jQuery('#exRowTable').DataTable({
+            exRowTable = jQuery('#exRowTable').DataTable({
                     responsive: true,
-                    serverSide: true,
-                    "ajax": "{{ path('_clientes_pagination') }}",
-                });
+                    "ajax": "{{ path('_cliente_pagination') }}"
+            });
 
-                // DataTables Length to Select2
-                jQuery('div.dataTables_length select').removeClass('form-control input-sm');
-                jQuery('div.dataTables_length select').css({width: '60px'});
-                jQuery('div.dataTables_length select').select2({
-                    minimumResultsForSearch: -1
-                });
+            // DataTables Length to Select2
+            jQuery('div.dataTables_length select').removeClass('form-control input-sm');
+            jQuery('div.dataTables_length select').css({width: '60px'});
+            jQuery('div.dataTables_length select').select2({
+                minimumResultsForSearch: -1
+            });
+            
+            
 
         });
        
@@ -29,11 +32,11 @@
     <div class="pageheader">
         <div class="media">
             <div class="pageicon pull-left">
-                <i class="fa fa-th-list"></i>
+                <i class="fa fa-user"></i>
             </div>
             <div class="media-body">
                 <ul class="breadcrumb">
-                    <li><a href="{{ path('_index') }}"><i class="glyphicon glyphicon-home"></i></a></li>
+                    <li><a href="{{ path('_cliente') }}"><i class="glyphicon glyphicon-user"></i></a></li>
                     <li><a href="">Clientes</a></li>
                     <li>Lista de Clientes</li>
                 </ul>
@@ -47,8 +50,7 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Cidade</th>
+                        <th>E-mail</th>
                     </tr>
                 </thead>
             </table>

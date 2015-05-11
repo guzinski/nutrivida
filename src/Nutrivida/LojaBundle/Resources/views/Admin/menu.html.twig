@@ -7,6 +7,40 @@
                 <i class="fa fa-home"></i> <span>Home</span>
             </a>
         </li>
+        <li class="parent {% if app.request.get('_route') starts with '_banner' %} active {% endif %}">
+            <a href=""><i class="fa fa-camera"></i> <span>Banners</span></a>
+            <ul class="children">
+                <li {% if app.request.get('_route') == '_banner' %} class="active" {% endif %}><a href="{{ path('_banner') }}">Listar</a></li>
+                <li {% if app.request.get('_route') == '_banner_form' %} class="active" {% endif %}><a href="{{ path('_banner_form') }}">Cadastrar</a></li>
+            </ul>
+        </li>
+        <li class="parent {% if app.request.get('_route') starts with '_produto' %} active {% endif %}">
+            <a href=""><i class="fa fa-cubes"></i> <span>Produtos</span></a>
+            <ul class="children">
+                <li {% if app.request.get('_route') == '_produto' %} class="active" {% endif %}><a href="{{ path('_produto') }}">Listar</a></li>
+                <li {% if app.request.get('_route') == '_produto_form'%} class="active" {% endif %}><a href="{{ path('_produto_form') }}">Cadastrar</a></li>
+            </ul>
+        </li>
+        <li {% if app.request.get('_route') == '_news' %} class="active" {% endif %}>
+            <a href="{{ path('_news') }}">
+                <i class="fa fa-edit"></i> <span>News</span>
+            </a>
+        </li>
+        <li {% if app.request.get('_route') == '_empresa' %} class="active" {% endif %}>
+            <a href="{{ path('_empresa') }}">
+                <i class="fa fa-suitcase"></i> <span>Empresas</span>
+            </a>
+        </li>
+        <li {% if app.request.get('_route') == '_cliente' %} class="active" {% endif %}>
+            <a href="{{ path('_cliente') }}">
+                <i class="fa fa-user-md"></i> <span>Clientes</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa  fa-gear"></i> <span>Configurações</span>
+            </a>
+        </li>
     </ul>
 
 </div><!-- leftpanel -->

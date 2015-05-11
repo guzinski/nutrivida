@@ -2,6 +2,7 @@
 
 namespace Nutrivida\LojaBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,14 +23,13 @@ class ProdutoImagem
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nome", type="string", length=150, nullable=false)
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"all"}, fetch="LAZY")
      */
-    private $nome;
+    private $media;
 
     /**
-     * @var \Produto
+     * @var Produto
      *
      * @ORM\ManyToOne(targetEntity="Produto", inversedBy="imagens")
      * @ORM\JoinColumns({
@@ -37,32 +37,24 @@ class ProdutoImagem
      * })
      */
     private $produto;
-
-
-
-    /**
-     * Set nome
-     *
-     * @param string $nome
-     * @return ProdutoImagem
-     */
-    public function setNome($nome)
+    
+    
+    function __construct(Media $media = null, Produto $produto = null)
     {
-        $this->nome = $nome;
-
-        return $this;
+        $this->media = $media;
+        $this->produto = $produto;
     }
 
-    /**
-     * Get nome
-     *
-     * @return string 
-     */
-    public function getNome()
+    function getMedia()
     {
-        return $this->nome;
+        return $this->media;
     }
 
+    function setMedia(Media $media)
+    {
+        $this->media = $media;
+    }
+    
     /**
      * Get id
      *
@@ -76,10 +68,10 @@ class ProdutoImagem
     /**
      * Set produto
      *
-     * @param \Nutrivida\LojaBundle\Entity\Produto $produto
+     * @param Produto $produto
      * @return ProdutoImagem
      */
-    public function setProduto(\Nutrivida\LojaBundle\Entity\Produto $produto = null)
+    public function setProduto(Produto $produto = null)
     {
         $this->produto = $produto;
 
@@ -89,7 +81,7 @@ class ProdutoImagem
     /**
      * Get produto
      *
-     * @return \Nutrivida\LojaBundle\Entity\Produto 
+     * @return Produto 
      */
     public function getProduto()
     {

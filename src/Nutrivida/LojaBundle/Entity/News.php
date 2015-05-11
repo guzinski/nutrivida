@@ -24,10 +24,9 @@ class News
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $email;
-
 
 
     /**

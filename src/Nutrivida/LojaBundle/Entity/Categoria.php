@@ -2,13 +2,15 @@
 
 namespace Nutrivida\LojaBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Categoria
  *
  * @ORM\Table(name="categoria")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Nutrivida\LojaBundle\Entity\Repository\CategoriaRepository")
  */
 class Categoria
 {
@@ -24,21 +26,21 @@ class Categoria
     /**
      * @var integer
      *
-     * @ORM\Column(name="nome", type="integer", nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $nome;
     
     /**
      *
-     * @var \Doctrine\Common\Collections\Collection
-     * @OneToMany(targetEntity="Produto", mappedBy="categoria") 
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Produto", mappedBy="categoria") 
      */
     private $produtos;
 
 
     function __construct()
     {
-        $this->setProdutos(new \Doctrine\Common\Collections\ArrayCollection());
+        $this->setProdutos(new ArrayCollection());
     }
 
         /**
@@ -77,7 +79,7 @@ class Categoria
     /**
      * Get produtos
      * 
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     function getProdutos()
     {
@@ -87,12 +89,18 @@ class Categoria
     /**
      * Set produtos
      * 
-     * @param \Doctrine\Common\Collections\Collection $produtos
+     * @param Collection $produtos
      */
-    function setProdutos(\Doctrine\Common\Collections\Collection $produtos)
+    function setProdutos(Collection $produtos)
     {
         $this->produtos = $produtos;
     }
+    
+    public function __toString()
+    {
+        return $this->nome;
+    }
+
 
 
 }

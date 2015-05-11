@@ -2,6 +2,7 @@
 
 namespace Nutrivida\LojaBundle\Entity;
 
+use Application\Sonata\MediaBundle\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,14 +23,13 @@ class EmpresaImagem
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nome", type="string", length=150, nullable=false)
+     * @var Media
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"all"}, fetch="LAZY")
      */
-    private $nome;
+    private $media;
 
     /**
-     * @var \Empresa
+     * @var Empresa
      *
      * @ORM\ManyToOne(targetEntity="Empresa", inversedBy="imagens")
      * @ORM\JoinColumns({
@@ -38,31 +38,31 @@ class EmpresaImagem
      */
     private $empresa;
 
-
-
-    /**
-     * Set nome
-     *
-     * @param string $nome
-     * @return EmpresaImagem
-     */
-    public function setNome($nome)
+    function __construct(Media $media = null, Empresa $empresa = null)
     {
-        $this->nome = $nome;
+        $this->media = $media;
+        $this->empresa = $empresa;
+    }
 
-        return $this;
+    
+    /**
+     * 
+     * @return Media
+     */
+    function getMedia()
+    {
+        return $this->media;
     }
 
     /**
-     * Get nome
-     *
-     * @return string 
+     * 
+     * @param Media $media
      */
-    public function getNome()
+    function setMedia(Media $media)
     {
-        return $this->nome;
+        $this->media = $media;
     }
-
+    
     /**
      * Get id
      *
@@ -76,10 +76,10 @@ class EmpresaImagem
     /**
      * Set empresa
      *
-     * @param \Nutrivida\LojaBundle\Entity\Empresa $empresa
+     * @param Empresa $empresa
      * @return EmpresaImagem
      */
-    public function setEmpresa(\Nutrivida\LojaBundle\Entity\Empresa $empresa = null)
+    public function setEmpresa(Empresa $empresa = null)
     {
         $this->empresa = $empresa;
 
@@ -89,7 +89,7 @@ class EmpresaImagem
     /**
      * Get empresa
      *
-     * @return \Nutrivida\LojaBundle\Entity\Empresa 
+     * @return Empresa 
      */
     public function getEmpresa()
     {
