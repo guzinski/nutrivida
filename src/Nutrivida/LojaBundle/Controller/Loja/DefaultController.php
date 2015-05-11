@@ -24,6 +24,7 @@ class DefaultController extends Controller
     
     /**
      * 
+     * @return type
      */
     public function rederMenuAction()
     {
@@ -33,7 +34,5 @@ class DefaultController extends Controller
             'NutrividaLojaBundle::Loja\\menu.html.twig',
             array('categorias' => $categorias)
         );
-
     }
-    
 }

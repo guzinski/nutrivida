@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\OneToMany;
  * Produto
  *
  * @ORM\Table(name="produto", indexes={@ORM\Index(name="FK__categoria", columns={"categoria"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Nutrivida\LojaBundle\Entity\Repository\ProdutoRepository")
  */
 class Produto
 {

@@ -41,6 +41,7 @@ class ProdutoController extends Controller
             $linha = array();
             
             $linha[] = "<a href=\"".$this->generateUrl("_produto_form", array("id"=>$produto->getId())) ."\">". $produto->getNome() ."</a>";
+            $linha[] = $produto->getCategoria()->getNome();
             $linha[] = $produto->getAtivo() ? "Sim" : "Não";
             $linha[] = "<a href=\"javascript:excluirProduto(".$produto->getId() .");\"><i class=\"glyphicon glyphicon-trash\"></a>";
             $dados[] = $linha;

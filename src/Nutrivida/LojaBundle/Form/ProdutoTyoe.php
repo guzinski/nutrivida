@@ -31,12 +31,12 @@ class ProdutoTyoe extends AbstractType
                 $builder->add('destaqueCategoria', 'choice', array(
                     'choices' => array('1' => 'Sim', '0' => 'Não'),
                     'expanded' => true,
-                    'label' => "Destaqeu da Categoria",
+                    'label' => "Destaque da Categoria",
                 ));
                 $builder->add('desconto', 'choice', array(
                     'choices' => array('1' => 'Sim', '0' => 'Não'),
                     'expanded' => true,
-                    'label' => "Destaqeu da Categoria",
+                    'label' => "Desconto",
                 ));
                 $builder->add('ativo', 'choice', array(
                     'choices' => array('1' => 'Sim', '0' => 'Não'),

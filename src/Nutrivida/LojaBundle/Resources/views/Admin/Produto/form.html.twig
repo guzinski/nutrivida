@@ -47,10 +47,15 @@
                     jQuery(element).closest('.form-group').append(error);
                 },
                 submitHandler: function(form) {
-                    var valor = jQuery("#produto_valor").maskMoney('unmasked')[0];
-                    jQuery("#produto_valor").maskMoney('destroy');
-                    jQuery("#produto_valor").val(valor);
-                    form.submit();
+                    if (myDrop.getAcceptedFiles().length>0) {
+                        var valor = jQuery("#produto_valor").maskMoney('unmasked')[0];
+                        jQuery("#produto_valor").maskMoney('destroy');
+                        jQuery("#produto_valor").val(valor);
+                        form.submit();
+                    } else {
+                        bootbox.alert("Insira ao menos uma imagem");
+                    }
+                    
                }
             });
             jQuery("#produto_valor").maskMoney({thousands:'.', decimal:','});

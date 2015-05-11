@@ -71,9 +71,9 @@
                     <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-{{ loop.index }}">
                         <ul class="tab_img">
                             {% for produto in categoria.getProdutos %}
-                            <li class="last">
+                            <li {% if loop.last %} class="last" {% endif %}>
                                 <div class="view view-first">
-                                    <img src="{{ asset('bundles/nutrividaloja/loja/images/img-teste.jpg') }}" class="img-responsive" alt=""/>
+                                    <img style="width: 260px; height: 330px;" src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                                     <div class="mask">
                                         <div class="info"> </div>
                                     </div>
