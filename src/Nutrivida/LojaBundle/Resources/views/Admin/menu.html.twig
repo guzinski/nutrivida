@@ -21,6 +21,13 @@
                 <li {% if app.request.get('_route') == '_produto_form'%} class="active" {% endif %}><a href="{{ path('_produto_form') }}">Cadastrar</a></li>
             </ul>
         </li>
+        <li class="parent {% if app.request.get('_route') starts with '_categoria' %} active {% endif %}">
+            <a href=""><i class="fa fa-list"></i> <span>Categorias</span></a>
+            <ul class="children">
+                <li {% if app.request.get('_route') == '_categoria' %} class="active" {% endif %}><a href="{{ path('_categoria') }}">Listar</a></li>
+                <li {% if app.request.get('_route') == '_categoria_form'%} class="active" {% endif %}><a href="{{ path('_categoria_form') }}">Cadastrar</a></li>
+            </ul>
+        </li>
         <li {% if app.request.get('_route') == '_news' %} class="active" {% endif %}>
             <a href="{{ path('_news') }}">
                 <i class="fa fa-edit"></i> <span>News</span>

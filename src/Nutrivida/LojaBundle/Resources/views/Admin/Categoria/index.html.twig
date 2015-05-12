@@ -1,20 +1,19 @@
 {% extends "NutrividaLojaBundle:Admin:layout.html.twig" %}
-{% block title %}Nutrivida | Banner{% endblock %}
+{% block title %}Nutrivida | Categoria{% endblock %}
 {% block head %}
     <link href="{{ asset('bundles/nutrividaloja/admin/css/style.datatables.css') }}" rel="stylesheet">
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-datatables.responsive.js') }}"></script>
     <script src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/select2.min.js') }}"></script>
-    
     <script>
         var exRowTable;
         jQuery(document).ready(function(){
             exRowTable = jQuery('#exRowTable').DataTable({
                     responsive: true,
-                    "ajax": "{{ path('_banner_pagination') }}",
+                    "ajax": "{{ path('_categoria_pagination') }}",
                     "aoColumnDefs": [
-                        { 'bSortable': false, 'aTargets': [ 1, 3 ] }
+                        { 'bSortable': false, 'aTargets': [ 1 ] }
                      ]
             });
 
@@ -28,12 +27,12 @@
             
 
         });
-        function excluirBanner(id) {
-            bootbox.confirm("Deseja realmente excluir este banner?", function(result) {
+        function excluirCategoria(id) {
+            bootbox.confirm("Deseja realmente excluir esta categoria?", function(result) {
                 if (result) {
-                    jQuery.post("{{ path('_banner_excluir') }}", {id: id}, function(data){
-                        location.href = "";
-                    });
+                    //jQuery.post("{{ path('_banner_excluir') }}", {id: id}, function(data){
+                    //    location.href = "";
+                    //});
                 }
             });
         }
@@ -45,15 +44,15 @@
     <div class="pageheader">
         <div class="media">
             <div class="pageicon pull-left">
-                <i class="fa fa-camera"></i>
+                <i class="fa fa-list"></i>
             </div>
             <div class="media-body">
                 <ul class="breadcrumb">
-                    <li><a href="{{ path('_banner') }}"><i class="glyphicon glyphicon-camera"></i></a></li>
-                    <li><a href="">Banner</a></li>
-                    <li>Lista de Banner</li>
+                    <li><a href="{{ path('_categoria') }}"><i class="glyphicon glyphicon-list"></i></a></li>
+                    <li><a href="">Categorias</a></li>
+                    <li>Lista de Categorias</li>
                 </ul>
-                <h4>Banner</h4>
+                <h4>Categorias</h4>
             </div>
         </div><!-- media -->
     </div><!-- pageheader -->
@@ -63,8 +62,6 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Imagem</th>
-                        <th>Ativo</th>
                         <th></th>
                     </tr>
                 </thead>

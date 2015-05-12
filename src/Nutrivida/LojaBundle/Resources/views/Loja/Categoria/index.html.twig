@@ -1,0 +1,194 @@
+{% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
+{% block title %}Nutrivida Tramandaí RS{% endblock %}
+
+{% block head %}
+    <script src="{{ asset('bundles/nutrividaloja/loja/js/responsiveslides.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/loja/js/easyResponsiveTabs.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/loja/js/jquery.wmuSlider.js') }}"></script>
+    
+        <script>
+            jQuery(document).ready(function () {
+                jQuery("#slider").responsiveSlides({
+                    auto: true,
+                    nav: true,
+                    speed: 500,
+                    namespace: "callbacks",
+                    pager: true,
+                });
+                jQuery('#horizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion           
+                    width: 'auto', //auto or any width like 600px
+                    fit: true   // 100% fit in a container
+                });
+                jQuery('.example1').wmuSlider();
+            });
+
+</script>
+
+{% endblock %}
+
+
+{% block content %}
+        <ul class="breadcrumbs">
+            <div class="container">
+                <li class="home">
+                    <a href="{{ path('_loja_index') }}" title="Home"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
+                    <span>&gt;</span>&nbsp;
+                </li>
+                <li class="home">
+                    Produtos&nbsp; 
+                    <span>&gt;</span>
+                </li>
+                <li class="home">
+                    <span class="red">&nbsp;{{ categoria.getNome }}&nbsp;</span>
+                </li>
+            </div>
+        </ul>
+        
+        <div class="product_banner">
+            <div class="container">
+                <div class="wmuSlider example1">
+                    <div class="wmuSliderWrapper">
+                        {% for destaque in destaques %}
+                        <article style="position: relative; width: 100%; opacity: 1;"> 
+                            <div class="banner-wrap">
+                                <div class="banner_left">
+                                    <img style="width: 558px; height:435px " src="{% path destaque.getImagens.get(0).media, 'produto_banner' %}" class="img-responsive" alt=""/>
+                                </div>
+                                <div class="banner_right">
+                                    <h1>{{ destaque.getNome }}</h1>
+                                    <p class="p1">R$ {{ destaque.getValor|number_format(2, ',', '.') }}</p>
+                                    <p class="p2">{{ destaque.getDescricao }}</p>
+                                    <a href="#" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
+                                </div>
+                                <div class='clearfix'></div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    <a class="wmuSliderPrev">Anterior</a><a class="wmuSliderNext">Próximo</a>
+                    <ul class="wmuSliderPagination">
+                        {% for destaque in destaques %}
+                            <li><a href="#" class="">{{ loop.index }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="products_top">
+            <div class="container">
+                <div class="col-md-9">
+                    <div class="mens-toolbar">
+                        <div class="sort">
+                            <div class="sort-by">
+                                <label>Ordenar por</label>
+                                <select>
+                                    <option {% if order=='nome' %} selected="" {% endif %} value="nome">Nome</option>
+                                    <option {% if order=='valor' %} selected="" {% endif %} value="valor">Preço</option>
+                                </select>
+                                <a href=""><img src="{{ asset('bundles/nutrividaloja/loja/images/arrow2.gif') }}" alt="" class="v-middle"></a>
+                            </div>
+                        </div>
+                        <div class="pages">
+                            <div class="limiter visible-desktop">
+                                <label>Mostrando {{ (page*12)-11 }}-{{ total>page*12 ? page*12 : total }} de {{ total }} resultados</label>
+                            </div>
+                            <ul style="margin: 0" class="pagination dc_pagination dc_paginationA dc_paginationA06">
+                                <li>
+                                    <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page-1), order: order}) }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% for i in 1..totalPages %}
+                                    <li {% if loop.index==page %} class="active" {% endif %}><a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: loop.index, order: order}) }}">{{ loop.index }}</a></li>
+                                {% endfor %}
+                              <li>
+                                <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page+1), order: order}) }}" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>		
+                    </div>
+                    <div class="product_box1">   
+                        <ul class="grid-4">
+                            {% for prod in produtos %}
+                                <li {% if loop.index%3==0 %} class="grid-4_last" {% endif %}>
+                                <a href="{{ path('_loja_produto', {slugCategoria: prod.categoria.slug, slug: prod.slug}) }}">
+                                    <div class="view view-first">
+                                        <img style="width: 260px; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                        <div class="product_mask"> </div>
+                                        <div class="tab_desc1">
+                                            <h3><a href="#">{{ prod.getNome }}</a></h3>
+                                            <p>R$ {{ prod.getValor|number_format(2, ',', '.') }}</p>
+                                            <a href="#" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
+                                        </div>
+                                    </div>
+                                {% if prod.desconto %}
+                                <div class="sale-box1"> </div>
+                                {% endif %}
+                                </a>
+                            </li>
+                            {% if loop.index%3==0 %}
+                                <div class="clearfix"> </div>
+                                </ul>
+                                </div>
+                                <div class="product_box1">   
+                                <ul class="grid-4">
+                            {% endif %}
+                            {% else %}
+                            <li><em>Nenhum produto encontrado</em></li>
+                            {% endfor %}
+                            
+                            <div class="clearfix"> </div>
+                        </ul>
+                    </div>
+                    
+                    
+                    <div class="pages">
+                        <div class="limiter visible-desktop">
+                            <label>Mostrando {{ (page*12)-11 }}-{{ total>page*12 ? page*12 : total }} de {{ total }} resultados</label>
+                        </div>
+                        <ul style="margin: 0" class="pagination dc_pagination dc_paginationA dc_paginationA06">
+                            <li>
+                                <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page-1), order: order}) }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% for i in 1..totalPages %}
+                                <li {% if loop.index==page %} class="active" {% endif %}><a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: loop.index, order: order}) }}">{{ loop.index }}</a></li>
+                            {% endfor %}
+                          <li>
+                            <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page+1), order: order}) }}" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-3 product_right">
+                    <h3 class="m_1">Produtos</h3>
+                    {% for cat in categorias %}
+                    <select class="dropdown" tabindex="50" data-settings='{"wrapperClass":"metro"}'>
+                        <option value="0">{{ cat.getNome }}</option>
+                        {% for prod in cat.getProdutos %}
+                        <option value="{{ prod.getId }}">{{ prod.getNome }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    
+    <div class="grid-2">
+        <div class="container">
+            <p>Aceitamos<img src="{{ asset('bundles/nutrividaloja/loja/images/paypal.png') }}" class="img-responsive" alt="" align="middle" /></p>
+        </div>
+    </div>
+{% endblock %}

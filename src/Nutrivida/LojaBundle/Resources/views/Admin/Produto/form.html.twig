@@ -11,15 +11,11 @@
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-ui-1.10.3.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/dropzone.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/select2.min.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/admin/js/wysihtml5-0.3.0.min.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/admin/js/bootstrap-wysihtml5.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/admin/js/ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/admin/js/ckeditor/adapters/jquery.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskMoney.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function(){
             jQuery('#loading').hide();
-            jQuery('#produto_descricao').wysihtml5({color: true,html:true});
+            //jQuery('#produto_descricao').wysihtml5({color: true,html:true});
             //jQuery('#produto_descricao').ckeditor();
             jQuery('select').select2();
             jQuery('.select2-container').removeClass("form-control").css("width", "100%")

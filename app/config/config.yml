@@ -69,7 +69,8 @@ doctrine:
                     NutrividaLojaBundle: ~
                     ApplicationSonataMediaBundle: ~
                     SonataMediaBundle: ~
-
+                    StofDoctrineExtensionsBundle: ~
+                    
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -103,3 +104,8 @@ sonata_media:
             directory:  %kernel.root_dir%/../web/uploads/media
             create:     true
 
+stof_doctrine_extensions:
+    default_locale: pt_BR
+    orm:
+        default:
+            sluggable: true

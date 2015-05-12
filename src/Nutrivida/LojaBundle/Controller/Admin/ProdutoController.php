@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Luciano
  */
 class ProdutoController extends Controller
-{
-    
-    
+{    
     /**
      * @Route("/produto", name="_produto")
      * @Template()
@@ -102,7 +100,7 @@ class ProdutoController extends Controller
         if (null != $id) {
             $em = $this->getDoctrine()->getManager();
             $produto = $em->find("NutrividaLojaBundle:Produto", $id);
-            $em->remove();
+            $em->remove($produto);
             $em->flush();
             $respone['ok'] = 1;
         } else {

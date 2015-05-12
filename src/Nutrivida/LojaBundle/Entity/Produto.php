@@ -5,13 +5,19 @@ namespace Nutrivida\LojaBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
+use Gedmo\Mapping\Annotation\Slug;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Produto
  *
  * @ORM\Table(name="produto", indexes={@ORM\Index(name="FK__categoria", columns={"categoria"})})
  * @ORM\Entity(repositoryClass="Nutrivida\LojaBundle\Entity\Repository\ProdutoRepository")
+ * @UniqueEntity(
+ *     fields={"nome", "categoria"},
+ *     message="Este nome já está cadastrado para esta categoria"
+ * )
  */
 class Produto
 {
@@ -27,23 +33,30 @@ class Produto
     /**
      * @var string
      *
-     * @ORM\Column(name="nome", type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $nome;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descricao", type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $descricao;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="valor", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
      */
     private $valor;
+    
+    /**
+     * @Slug(fields={"nome"})
+     * @ORM\Column(length=150, unique=true)
+     */
+    private $slug;
+
 
     /**
      * @var \Categoria
@@ -77,7 +90,7 @@ class Produto
     private $desconto = 0;
     
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="produtos")
      */
@@ -252,9 +265,19 @@ class Produto
         $this->desconto = $desconto;
     }
 
-    function setPedidos(\Doctrine\Common\Collections\Collection $pedidos)
+    function setPedidos(Collection $pedidos)
     {
         $this->pedidos = $pedidos;
+    }
+
+    function getSlug()
+    {
+        return $this->slug;
+    }
+
+    function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 
 

@@ -1,0 +1,78 @@
+{% extends "NutrividaLojaBundle:Admin:layout.html.twig" %}
+{% form_theme form 'NutrividaLojaBundle:Admin/Form:fields.html.twig' %}
+{% block title %}Nutrivida | Categoria{% endblock %}
+{% block head %}
+    <link href="{{ asset('bundles/nutrividaloja/admin/css/basic.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/nutrividaloja/admin/css/dropzone.css') }}" rel="stylesheet" />
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/messages_ptbr.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/validate/additional-methods.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-ui-1.10.3.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/dropzone.min.js') }}"></script>
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery('#loading').hide();
+            jQuery("#basicForm").validate({
+                highlight: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-error');
+                },
+                errorPlacement: function(error, element) {
+                    jQuery(element).closest('.form-group').append(error);
+                },
+                submitHandler: function(form) {
+                    form.submit();
+               }
+            });
+        });
+            
+    </script>
+{% endblock %}
+
+{% block mainpanel %}
+<div class="pageheader">
+    <div class="media">
+        <div class="pageicon pull-left">
+            <i class="fa fa-list"></i>
+        </div>
+        <div class="media-body">
+            <ul class="breadcrumb">
+                <li><a href=""><i class="glyphicon glyphicon-list"></i></a></li>
+                <li><a href="">Categoria</a></li>
+                <li>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</li>
+            </ul>
+            <h4>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</h4>
+        </div>
+    </div><!-- media -->
+</div><!-- pageheader -->
+
+<div class="contentpanel">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="POST" class="form-horizontal form-bordered" id="basicForm" action="">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        {{ form_row(form.nome) }}
+                        {{ form_row(form._token) }}
+                        {{ form_errors(form) }}
+                    </div><!-- row -->
+                </div><!-- panel-body -->
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <img src="{{ asset('bundles/nutrividaloja/admin/images/loading.gif') }}" id="loading" alt="Carregando" />
+                        <button class="btn btn-primary mr5">Salvar</button>
+                        <button type="button" onclick="history.back()" class="btn btn-default mr5">Cancelar</button>
+                    </div>
+                  </div>
+                </div><!-- panel-footer -->  
+            </div><!-- panel -->
+            </form>
+        </div><!-- col-md-12 -->
+    </div><!-- row -->
+</div><!-- contentpanel -->
+{% endblock %}

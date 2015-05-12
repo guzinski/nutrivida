@@ -5,13 +5,19 @@ namespace Nutrivida\LojaBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Nutrivida\LojaBundle\Entity\Repository\CategoriaRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation\Slug;
 /**
  * Categoria
  *
  * @ORM\Table(name="categoria")
  * @ORM\Entity(repositoryClass="Nutrivida\LojaBundle\Entity\Repository\CategoriaRepository")
- */
+ * @UniqueEntity(
+ *     fields={"nome"},
+ *     message="Já existe uma categoria com esse nome"
+ * )
+ **/
 class Categoria
 {
     /**
@@ -26,9 +32,15 @@ class Categoria
     /**
      * @var integer
      *
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false, unique=true)
      */
     private $nome;
+    
+    /**
+     * @Slug(fields={"nome"})
+     * @ORM\Column(length=150, unique=true)
+     */
+    private $slug;
     
     /**
      *
@@ -99,6 +111,16 @@ class Categoria
     public function __toString()
     {
         return $this->nome;
+    }
+
+    function getSlug()
+    {
+        return $this->slug;
+    }
+
+    function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 
 
