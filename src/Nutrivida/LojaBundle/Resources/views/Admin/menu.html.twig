@@ -35,7 +35,7 @@
         </li>
         <li {% if app.request.get('_route') == '_empresa' %} class="active" {% endif %}>
             <a href="{{ path('_empresa') }}">
-                <i class="fa fa-suitcase"></i> <span>Empresas</span>
+                <i class="fa fa-suitcase"></i> <span>Empresa</span>
             </a>
         </li>
         <li {% if app.request.get('_route') == '_cliente' %} class="active" {% endif %}>
@@ -43,8 +43,15 @@
                 <i class="fa fa-user-md"></i> <span>Clientes</span>
             </a>
         </li>
+        <li class="parent {% if app.request.get('_route') starts with '_usuario' %} active {% endif %}">
+            <a href=""><i class="fa fa-users"></i> <span>Usuários</span></a>
+            <ul class="children">
+                <li {% if app.request.get('_route') == '_usuario' %} class="active" {% endif %}><a href="{{ path('_usuario') }}">Listar</a></li>
+                <li {% if app.request.get('_route') == '_usuario_form'%} class="active" {% endif %}><a href="{{ path('_usuario_form') }}">Cadastrar</a></li>
+            </ul>
+        </li>
         <li>
-            <a href="#">
+            <a href="{{ path("_nivel") }}">
                 <i class="fa  fa-gear"></i> <span>Configurações</span>
             </a>
         </li>

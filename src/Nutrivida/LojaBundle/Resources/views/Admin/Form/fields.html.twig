@@ -22,6 +22,32 @@
 {% endspaceless %}
 {% endblock _produto_ativo_widget %}
 
+{% block _nivel_permissoes_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _nivel_permissoes_widget %}
+
+
+{% block _usuario_ativo_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _usuario_ativo_widget %}
+
+
 {% block _produto_desconto_widget %}
 {% spaceless %}
     {% if expanded %}
@@ -56,6 +82,15 @@
     </div>
 {% endspaceless %}
 {% endblock radio_widget %}
+
+{% block checkbox_widget %}
+{% spaceless %}
+    <div class="checkbox block">
+        <label  for="{{ id }}"><input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />{{ label|trans }}</label>
+    </div>
+{% endspaceless %}
+{% endblock checkbox_widget %}
+
 
 
 {% block form_row %}

@@ -2,3 +2,11 @@ services:
 #    nutrivida_loja.example:
 #        class: Nutrivida\LojaBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    kernel.listener.access_denied.handler:
+        class: Nutrivida\LojaBundle\DependencyInjection\AccessDeniedHandler
+        arguments: ["@session", "@router"]
+        tags:
+           - { name: kernel.event_listener, event: security.kernel_response, method: handle}
+parameters:
+    kernel.listener.atd.access_denied.class: Acme\Bundle\Listener\AccessDeniedListener
+ 

@@ -3,14 +3,16 @@
 namespace Nutrivida\LojaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuario
- *
+ * @UniqueEntity("email", message="Já existe um usuário com esse e-mail cadastrado")
  * @ORM\Table(name="usuario")
  * @ORM\Entity
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var integer
@@ -31,7 +33,7 @@ class Usuario
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=150, nullable=false)
+     * @ORM\Column(name="email", type="string", length=150, nullable=false, unique=true)
      */
     private $email;
 
@@ -41,6 +43,24 @@ class Usuario
      * @ORM\Column(name="senha", type="string", length=150, nullable=false)
      */
     private $senha;
+
+    
+    /**
+     * @var Nivel
+     *
+     * @ORM\ManyToOne(targetEntity="Nivel", inversedBy="usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivel", referencedColumnName="id")
+     * })
+     */
+    private $nivel;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $ativo = 0;
 
 
 
@@ -122,4 +142,61 @@ class Usuario
     {
         return $this->id;
     }
+    
+    public function getNivel()
+    {
+        return $this->nivel;
+    }
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    public function setNivel(Nivel $nivel)
+    {
+        $this->nivel = $nivel;
+        return $this;
+    }
+
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+        return $this;
+    }
+    
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getPassword()
+    {
+        return $this->senha;
+    }
+
+    public function getRoles()
+    {
+        $roles = array();
+        foreach ($this->getNivel()->getPermissoes() as $permissao) {
+            $roles [] = $permissao->getRole();
+        }
+        $roles [] = "ROLE_USER";
+        var_dump($roles);
+        //die();
+        return $roles;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+
+
 }

@@ -95,7 +95,7 @@
                                     <div class="tab_desc">
                                         <h3><a href="single.html">{{ produto.getNome }}</a></h3>
                                         <p>R$ {{ produto.getValor|number_format(2, ',', '.') }}</p>
-                                        <a href="#" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
+                                        <a href="{{ path('_loja_produto', {slugCategoria: produto.categoria.slug, slug: produto.slug}) }}" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
                                     </div>
                                 </div>
                                 {% if produto.desconto %} <div class="sale-box"> </div> {% endif %}

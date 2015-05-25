@@ -39,6 +39,8 @@
                     if (jQuery("#banner_media").val()=="") {
                         bootbox.alert("Insira uma iamgem");
                     } else {
+                        jQuery("#salvar").hide();
+                        jQuery('#loading').show();
                         form.submit();
                     }
                }
@@ -155,7 +157,7 @@
                   <div class="row">
                     <div class="col-sm-9 col-sm-offset-3">
                         <img src="{{ asset('bundles/nutrividaloja/admin/images/loading.gif') }}" id="loading" alt="Carregando" />
-                        <button class="btn btn-primary mr5">Salvar</button>
+                        <button id="salvar" class="btn btn-primary mr5">Salvar</button>
                         <button type="button" onclick="history.back()" class="btn btn-default mr5">Cancelar</button>
                     </div>
                   </div>

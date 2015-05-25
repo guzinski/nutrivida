@@ -8,3 +8,7 @@ nutrivida_loja:
     type:     annotation
     prefix:   /
 
+_login_check:
+    pattern:    /admin/login/verificacao
+_logout:
+    pattern:    /admin/login/sair

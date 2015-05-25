@@ -1,18 +1,23 @@
 {% extends "NutrividaLojaBundle:Admin:layout.html.twig" %}
 {% form_theme form 'NutrividaLojaBundle:Admin/Form:fields.html.twig' %}
-{% block title %}Nutrivida | Categoria{% endblock %}
+{% block title %}Nutrivida | Usuário{% endblock %}
 {% block head %}
     <link href="{{ asset('bundles/nutrividaloja/admin/css/basic.css') }}" rel="stylesheet" />
     <link href="{{ asset('bundles/nutrividaloja/admin/css/dropzone.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/nutrividaloja/admin/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" />
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/messages_ptbr.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/validate/additional-methods.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-ui-1.10.3.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/dropzone.min.js') }}"></script>
-    
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskMoney.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function(){
             jQuery('#loading').hide();
+            jQuery('select').select2();
+            jQuery('.select2-container').removeClass("form-control").css("width", "100%")
+
             jQuery("#basicForm").validate({
                 highlight: function(element) {
                     jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -29,8 +34,12 @@
                     form.submit();
                }
             });
+            
         });
             
+                        
+            
+        
     </script>
 {% endblock %}
 
@@ -38,15 +47,15 @@
 <div class="pageheader">
     <div class="media">
         <div class="pageicon pull-left">
-            <i class="fa fa-list"></i>
+            <i class="fa fa-user"></i>
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href=""><i class="glyphicon glyphicon-list"></i></a></li>
-                <li><a href="">Categoria</a></li>
-                <li>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</li>
+                <li><a href=""><i class="glyphicon glyphicon-user"></i></a></li>
+                <li><a href="">Usuário</a></li>
+                <li>{{ usuario.getid>0 ? "Editar" : "Cadastrar" }} Usuário</li>
             </ul>
-            <h4>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</h4>
+            <h4>{{ usuario.getid>0 ? "Editar" : "Cadastrar" }} Usuário</h4>
         </div>
     </div><!-- media -->
 </div><!-- pageheader -->
@@ -59,6 +68,10 @@
                 <div class="panel-body">
                     <div class="row">
                         {{ form_row(form.nome) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.senha) }}
+                        {{ form_row(form.nivel) }}
+                        {{ form_row(form.ativo) }}
                         {{ form_row(form._token) }}
                         {{ form_errors(form) }}
                     </div><!-- row -->
@@ -74,6 +87,7 @@
                 </div><!-- panel-footer -->  
             </div><!-- panel -->
             </form>
+
         </div><!-- col-md-12 -->
     </div><!-- row -->
 </div><!-- contentpanel -->

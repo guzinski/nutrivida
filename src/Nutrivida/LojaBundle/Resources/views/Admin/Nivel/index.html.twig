@@ -1,18 +1,29 @@
 {% extends "NutrividaLojaBundle:Admin:layout.html.twig" %}
+{% if form %}
 {% form_theme form 'NutrividaLojaBundle:Admin/Form:fields.html.twig' %}
-{% block title %}Nutrivida | Categoria{% endblock %}
+{% endif %}
+{% block title %}Nutrivida | Configurações{% endblock %}
 {% block head %}
     <link href="{{ asset('bundles/nutrividaloja/admin/css/basic.css') }}" rel="stylesheet" />
     <link href="{{ asset('bundles/nutrividaloja/admin/css/dropzone.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/nutrividaloja/admin/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" />
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/messages_ptbr.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/validate/additional-methods.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery-ui-1.10.3.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/dropzone.min.js') }}"></script>
-    
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskMoney.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function(){
             jQuery('#loading').hide();
+            jQuery('select').select2().on("change", function(e) {
+                if (e.val!="") {
+                    location.href = "{{ path("_nivel") }}/"+e.val
+                }
+            })
+            jQuery('.select2-container').removeClass("form-control").css("width", "100%")
+
             jQuery("#basicForm").validate({
                 highlight: function(element) {
                     jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -29,8 +40,11 @@
                     form.submit();
                }
             });
+            
         });
             
+            
+        
     </script>
 {% endblock %}
 
@@ -38,15 +52,14 @@
 <div class="pageheader">
     <div class="media">
         <div class="pageicon pull-left">
-            <i class="fa fa-list"></i>
+            <i class="fa fa-gear"></i>
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href=""><i class="glyphicon glyphicon-list"></i></a></li>
-                <li><a href="">Categoria</a></li>
-                <li>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</li>
+                <li><a href=""><i class="glyphicon glyphicon-gear"></i></a></li>
+                <li><a href="">Configurações</a></li>
             </ul>
-            <h4>{{ categoria.getid>0 ? "Editar" : "Cadastrar" }} Categoria</h4>
+            <h4>Configurações de acesso</h4>
         </div>
     </div><!-- media -->
 </div><!-- pageheader -->
@@ -54,11 +67,35 @@
 <div class="contentpanel">
     <div class="row">
         <div class="col-md-12">
+            
             <form method="POST" class="form-horizontal form-bordered" id="basicForm" action="">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-btns" style="display: none;">
+                            <a title="" data-toggle="tooltip" class="panel-minimize tooltips" href="" data-original-title="Minimize Panel"><i class="fa fa-minus"></i></a>
+                            <a title="" data-toggle="tooltip" class="panel-close tooltips" href="" data-original-title="Close Panel"><i class="fa fa-times"></i></a>
+                        </div><!-- panel-btns -->
+                        <h4 class="panel-title">Selecione um nível</h4>
+                        <p>Um nível precisa se selecionado para alterar susas permissões</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-sm-8">
+                                <select id="nivel">
+                                    <option value="">Selecione</option>
+                                    {% for nivel in niveis %}
+                                        <option {% if nivel.id==id %} selected="selected" {% endif %} value="{{ nivel.id }}">{{ nivel.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div><!-- form-group -->
+                    </div><!-- panel-body -->
+                </div>
+                {% if form %}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        {{ form_row(form.nome) }}
+                        {{ form_row(form.permissoes) }}
                         {{ form_row(form._token) }}
                         {{ form_errors(form) }}
                     </div><!-- row -->
@@ -73,7 +110,9 @@
                   </div>
                 </div><!-- panel-footer -->  
             </div><!-- panel -->
+            {% endif %}
             </form>
+            
         </div><!-- col-md-12 -->
     </div><!-- row -->
 </div><!-- contentpanel -->

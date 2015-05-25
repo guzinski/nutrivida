@@ -1,42 +1,43 @@
 security:
-#    encoders:
-#        Sindilojas\CobrancaBundle\Entity\Usuario: plaintext
-
-#    providers:
-#        main:
-#            entity: { class: SindilojasCobrancaBundle:Usuario, property: email }
+    encoders:
+        Nutrivida\LojaBundle\Entity\Usuario: plaintext
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        main:
+            entity: { class: NutrividaLojaBundle:Usuario, property: email }
 
     firewalls:
-#        login_firewall:
-#            pattern:   ^/login$
-#            anonymous: ~
+        login_firewall:
+            pattern:   ^/admin/login$
+            anonymous: ~
         profile_firewall:
             pattern:   ^/_profiler
             anonymous: ~
         bar_firewall:
             pattern:   ^/_wdt
             anonymous: ~
-#        secured_area:
-#            pattern:    ^/
-#            form_login: 
-#                check_path: _login_check
-#                login_path: _login
-#                require_previous_session: false
-#                always_use_default_target_path: true
-#                default_target_path: /
-#            logout:
-#                path:   _logout
-#                target: _index
+        secured_area:
+            pattern:    ^/admin/
+            form_login: 
+                check_path: _login_check
+                login_path: _login
+                require_previous_session: false
+                always_use_default_target_path: true
+                default_target_path: /admin
+            logout:
+                path:   _logout
+                target: _index
+            access_denied_handler: kernel.listener.access_denied.handler
                 
     access_control:
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/_wdt, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }        
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin/banner,       roles: ROLE_BANNER }        
+        - { path: ^/admin/produto,      roles: ROLE_PRODUTO }        
+        - { path: ^/admin/categoria,    roles: ROLE_CATEGORIA }        
+        - { path: ^/admin/news,         roles: ROLE_NEWS }        
+        - { path: ^/admin/empresa,      roles: ROLE_EMPRESA }        
+        - { path: ^/admin/cliente,      roles: ROLE_CLIENTE }        
+        - { path: ^/admin/usuario,      roles: ROLE_USUARIO }        
+        - { path: ^/admin/nivel,        roles: ROLE_NIVEL }        
+        
