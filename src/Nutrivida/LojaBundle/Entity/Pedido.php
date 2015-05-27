@@ -41,7 +41,7 @@ class Pedido
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="Produto", inversedBy="pedidos")
+     * @ORM\ManyToMany(targetEntity="Produto", inversedBy="pedidos", cascade={"persist"})
      * @ORM\JoinTable(name="produto_pedido",
      *   joinColumns={
      *     @ORM\JoinColumn(name="pedido", referencedColumnName="id")

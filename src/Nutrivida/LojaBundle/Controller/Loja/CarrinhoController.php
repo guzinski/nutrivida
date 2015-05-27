@@ -71,6 +71,56 @@ class CarrinhoController extends Controller
     }
     
     /**
+     * @Route("/alterar/quantidade/{idProduto}/{quantidade}", name="_loja_carrinho_alterar_quantidade")
+     * @param type $idProduto
+     * @param type $quantidade
+     * @return array
+     */
+    public function alterarQuantidadeAction($idProduto = null, $quantidade = null)
+    {
+        if ($idProduto && $quantidade) {
+            $session = $this->get("session");
+            $carrinho = $session->get('carrinho', array());
+            if (array_key_exists($idProduto, $carrinho)) {
+                $carrinho[$idProduto] = $quantidade;
+            }
+            $session->set('carrinho', $carrinho);
+        }
+        return new Response();
+    }
+
+    /**
+     * @Route("/finalizar", name="_loja_carrinho_finalizar")
+     */
+    public function finalizarAction()
+    {
+        $user = $this->getUser();
+        $result = array();
+        $result["ok"] = 0;
+        $result["user"] = 0;
+        if ($user) {
+            $result["user"] = 1;
+            $em = $this->getDoctrine()->getManager();
+            $rep = $em->getRepository("NutrividaLojaBundle:Produto");
+            $session = $this->get("session");
+            $carrinho = $session->get('carrinho', array());
+            $produtos = $rep->findById(array_keys($carrinho));
+            $pedido = new \Nutrivida\LojaBundle\Entity\Pedido();
+            $pedido->setCliente($em->find("NutrividaLojaBundle:Cliente", $user->getId()));            
+            foreach ($produtos as $produto) {
+                $pedido->getProdutos()->add($produto);
+            }
+            $em->persist($pedido);
+            $em->flush();
+            $session->set('carrinho', array());
+            $result["ok"] = 1;
+        }
+        return new Response(json_encode($result));
+    }
+
+    
+    
+    /**
      * 
      * @return type
      */
@@ -91,6 +141,7 @@ class CarrinhoController extends Controller
             array('totalQtd' => $totalQtd, "valorTotal" => $valor)
         );
     }
+    
 
     
     

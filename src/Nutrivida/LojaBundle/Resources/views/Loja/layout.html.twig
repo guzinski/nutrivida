@@ -21,6 +21,7 @@
             function adicionarCarrinho(id) {
                 jQuery.get("{{ path("_loja_carrinho_adicionar") }}/"+id, function(msg) {
                    bootbox.alert(msg);
+                   location.href = "";
                 });
             }
             

@@ -29,6 +29,16 @@ class ClienteController extends Controller
     }
     
     /**
+     * @Route("/pedido/finalizado", name="_loja_cliente_pedido_finalizado")
+     * @Template()
+     * @return array
+     */
+    public function pedidoFinalizadoAction() 
+    {
+        return array();
+    }
+    
+    /**
      * 
      * @Route("/cadastro", name="_loja_cadastro_cliente")
      * @Template()

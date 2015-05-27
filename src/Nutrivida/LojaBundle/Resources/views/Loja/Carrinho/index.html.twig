@@ -3,7 +3,31 @@
 
 {% block head %}
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
+<script>
+    
+    function alterarQuantidade(id, qtd) {
+        jQuery.get("{{ path("_loja_carrinho_alterar_quantidade") }}/"+id+"/"+qtd, function(msg) {
+            location.href = "";
+        });
+    }
+    function voltarParaProdutos() {
+        location.href = "{{ path('_loja_index') }}";
+    }
+    function  finalizarPedido() {
+        bootbox.confirm("Tem certea de que deseja finalizar o pedido?", function(result) {
+            if (result) {
+                jQuery.get("{{ path("_loja_carrinho_finalizar") }}", function(data) {
+                    if (data.user == 0) {
+                        location.href = "{{ path('_login_cliente') }}";
+                    } 
+                    if (data.ok == 1) {
+                        location.href = "{{ path('_loja_cliente_pedido_finalizado') }}";
+                    }
+                }, "json");
+            }
+        });
+    }
+</script>
 {% endblock %}
 
 
@@ -33,8 +57,8 @@
                         <tbody>
                             <tr>
                                 <th class="hidden-xs"></th>
-                                <th>Product</th>
-                                <th>Q-ty</th>
+                                <th>Produto</th>
+                                <th>Qntd./th>
                                 <th>Total</th>
                                 <th></th>
                             </tr>
@@ -46,10 +70,10 @@
                                 <td><a href=""{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}" title="">{{ produto.getNome }}</a></td>
                                 <td>
                                     <form class="form">
-                                        <input type="number" class="input-sm" style="width: 60px;" min="1" max="25" value="{{ carrinho[produto.getId] }}">
+                                        <input onchange="alterarQuantidade({{ produto.getId }}, jQuery(this).val())" type="number" class="input-sm" style="width: 60px;" min="1" max="25" value="{{ carrinho[produto.getId] }}">
                                     </form>
                                 </td>
-                                <td>R$ {{ produto.getValor|number_format(2, ',', '.') }}</td>
+                                <td>R$ {{ (produto.getValor*carrinho[produto.getId])|number_format(2, ',', '.') }}</td>
                                 <td><a href="javascript:removerProduto({{ produto.getId }})"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             {% else %}
@@ -66,8 +90,8 @@
                             <h2>Total: R$ {{ valor|number_format(2, ',', '.') }}</h2>
                         </div>
                         <div class="col-sm-5 text-right">
-                            <button class="btn btn-theme-bg margin10">Finalizar Pedido</button>
-                            <button class="btn btn-theme-bg margin10">Voltar aos Produtos</button>
+                            <button onclick="finalizarPedido()" class="btn btn-theme-bg margin10">Finalizar Pedido</button>
+                            <button onclick="voltarParaProdutos()" class="btn btn-theme-bg margin10">Voltar aos Produtos</button>
                         </div>
                     </div>
                 </div>
