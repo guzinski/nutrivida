@@ -67,7 +67,7 @@
                             <div class="clearfix"></div>
                         </ul>
                         <p>{{ produto.descricao }}</p>
-                        <a href="#" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
+                        <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -83,7 +83,7 @@
                                 <div class="tab_desc">
                                     <h3><a href="#">{{ prod.nome }}</a></h3>
                                     <p>R$ {{ prod.valor|number_format(2, ',', '.') }}</p>
-                                    <a href="#" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
+                                    <a href="javascript:adicionarCarrinho({{ prod.getId }})" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
                                 </div>
                             </div>
                                 {% if prod.desconto %}

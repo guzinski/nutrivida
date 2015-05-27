@@ -56,10 +56,10 @@
                                     <img style="width: 558px; height:435px " src="{% path destaque.getImagens.get(0).media, 'produto_banner' %}" class="img-responsive" alt=""/>
                                 </div>
                                 <div class="banner_right">
-                                    <h1>{{ destaque.getNome }}</h1>
+                                    <h1>><a href="{{ path('_loja_produto', {slugCategoria: destaque.getCategoria.getSlug, slug: destaque.getSlug}) }}">{{ destaque.getNome }}</a></h1>
                                     <p class="p1">R$ {{ destaque.getValor|number_format(2, ',', '.') }}</p>
                                     <p class="p2">{{ destaque.getDescricao }}</p>
-                                    <a href="#" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
+                                    <a href="javascript:adicionarCarrinho({{ destaque.getId }})" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
                                 </div>
                                 <div class='clearfix'></div>
                             </div>
@@ -117,20 +117,18 @@
                         <ul class="grid-4">
                             {% for prod in produtos %}
                                 <li {% if loop.index%3==0 %} class="grid-4_last" {% endif %}>
-                                <a href="{{ path('_loja_produto', {slugCategoria: prod.categoria.slug, slug: prod.slug}) }}">
                                     <div class="view view-first">
                                         <img style="width: 260px; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                                         <div class="product_mask"> </div>
                                         <div class="tab_desc1">
-                                            <h3><a href="#">{{ prod.getNome }}</a></h3>
+                                            <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.getNome }}</a></h3>
                                             <p>R$ {{ prod.getValor|number_format(2, ',', '.') }}</p>
-                                            <a href="{{ path('_loja_produto', {slugCategoria: prod.categoria.slug, slug: prod.slug}) }}" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
+                                            <a href="javascript:adicionarCarrinho({{ prod.getId }})" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
                                         </div>
                                     </div>
                                 {% if prod.desconto %}
                                 <div class="sale-box1"> </div>
                                 {% endif %}
-                                </a>
                             </li>
                             {% if loop.index%3==0 %}
                                 <div class="clearfix"> </div>

@@ -212,7 +212,7 @@ html, body{
 ul.header_user_info {
 	float: left;
 	border-right: 1px solid #555;
-	width:50%;
+	width:100%;
 }
 ul.header_user_info a{
 	color:#fff;
@@ -243,6 +243,20 @@ ul.header_user_info li.user_desc{
 	-webkit-transition: all 0.2s linear;
 	transition: all 0.2s linear;
 	float: left;
+	margin-top:8px;
+}
+ul.header_user_info li.user_logout{
+	display: block;
+	font-size: 10px;
+	font-weight: 400;
+	text-transform: uppercase;
+	cursor: pointer;
+	/* background: #fb5c22; */
+	-moz-transition: all 0.2s linear;
+	-o-transition: all 0.2s linear;
+	-webkit-transition: all 0.2s linear;
+	transition: all 0.2s linear;
+	float: right;
 	margin-top:8px;
 }
 .srch {
@@ -520,7 +534,6 @@ ul.shopping_bag{
 }
 ul.shopping_bag li.bag_left{
 	float:left;
-	margin-right: 35%;
 }
 ul.shopping_bag li.bag_right{
 	float: left;
@@ -2242,7 +2255,8 @@ span.right_line2 {
 	display: block;
 	text-transform: uppercase;
 }
-.login-right input[type="text"] {
+.login-right input[type="text"],
+.login-right input[type="password"]{
 	border: 1px solid #DDDBDB;
 	outline-color:#fb4d01;
 	width: 96%;

@@ -1,0 +1,80 @@
+{% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
+{% block title %}Nutrivida Tramandaí RS{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+{% endblock %}
+
+
+{% block content %}
+        <ul class="breadcrumbs">
+            <div class="container">
+                <li class="home">
+                    <a href="{{ path('_loja_index') }}" title="Home"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
+                    <span>&gt;</span>&nbsp;
+                </li>
+                <li class="home">
+                    Produtos&nbsp; 
+                    <span>&gt;</span>
+                </li>
+                <li class="home">
+                    <span class="red">&nbsp;Carrinho&nbsp;</span>
+                </li>
+            </div>
+        </ul>
+                    
+<div class="cart">
+    <div class="container">
+        <div class="cart_top">
+            <div class="col-md-12">
+            	<div class="cart_grid cart_address">
+                    <table class="table table-striped shopping-cart-table">
+                        <tbody>
+                            <tr>
+                                <th class="hidden-xs"></th>
+                                <th>Product</th>
+                                <th>Q-ty</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                            {% set valor = 0 %}
+                            {% for produto in produtos %}
+                            {% set valor = valor+carrinho[produto.getId]*produto.getValor %}
+                            <tr>
+                                <td class="hidden-xs"><a href="" title=""><img src="{% path produto.getImagens.get(0).media, 'produto_banner' %}" alt="" title="" style="width:70px;height:70px;" /></a></td>
+                                <td><a href=""{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}" title="">{{ produto.getNome }}</a></td>
+                                <td>
+                                    <form class="form">
+                                        <input type="number" class="input-sm" style="width: 60px;" min="1" max="25" value="{{ carrinho[produto.getId] }}">
+                                    </form>
+                                </td>
+                                <td>R$ {{ produto.getValor|number_format(2, ',', '.') }}</td>
+                                <td><a href="javascript:removerProduto({{ produto.getId }})"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5"> Nenhum produto no carrinho</td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                    
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h2>Total: R$ {{ valor|number_format(2, ',', '.') }}</h2>
+                        </div>
+                        <div class="col-sm-5 text-right">
+                            <button class="btn btn-theme-bg margin10">Finalizar Pedido</button>
+                            <button class="btn btn-theme-bg margin10">Voltar aos Produtos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+        
+{% endblock %}

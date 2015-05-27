@@ -15,11 +15,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $user = $this->getUser();
-        var_dump($user);
         $banners = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Banner")->findBy(array("ativo"=>"1"));
         $categorias = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Categoria")->getProdutosDestaques();
-        
         
         return array("banners"=>$banners, "categorias"=>$categorias);
     }
@@ -28,7 +25,7 @@ class DefaultController extends Controller
      * 
      * @return type
      */
-    public function rederMenuAction()
+    public function renderMenuAction()
     {
         $categorias = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Categoria")->findAll();
         

@@ -5,10 +5,20 @@
                     </div>
                     <div class="header_top_right">
                         <ul class="header_user_info" style="padding:2px 0 5px 0">
+                            {% if app.user %}
+                            <a href="{{ path("_loja_cliente") }}" class="login">
+                                <i class="user"></i> 
+                                <li class="user_desc">Bem-vindo, {{ app.user.nome }}</li>
+                            </a>
+                            <a href="{{ path("_logout_cliente") }}" class="login">
+                                <li class="user_logout">Sair</li>
+                            </a>
+                            {% else %}
                             <a href="{{ path("_loja_cliente") }}" class="login">
                                 <i class="user"></i> 
                                 <li class="user_desc">Minha Conta</li>
                             </a>
+                            {% endif %}
                             <div class="clearfix"> </div>
                         </ul>
                         <div class="main-search">
@@ -44,24 +54,9 @@
                     </div>	
                     <div class="header_bottom_right">
                         <div class="h_menu4">
-                            {{ render(controller('NutrividaLojaBundle:Loja/Default:rederMenu')) }}
+                            {{ render(controller('NutrividaLojaBundle:Loja/Default:renderMenu')) }}
                         </div><!-- end h_menu4 -->
-                        <div class="shopping_cart">
-                            <ul class="shopping_cart_top">
-                                <a href="#">
-                                    <li class="shop_left">Meu Carrinho</li>
-                                    <li class="shop_right"><img src="{{ asset('bundles/nutrividaloja/loja/images/arrow1.png') }}" alt=""/></li>
-                                    <div class="clearfix"></div>	
-                                </a>
-                            </ul>
-                            <ul class="shopping_bag">
-                                <a href="#">
-                                    <li class="bag_left"><img src="{{ asset('bundles/nutrividaloja/loja/images/bag.png') }}" alt=""/></li>
-                                    <li class="bag_right"> 0 Items | R$  0</li>
-                                    <div class="clearfix"></div>	
-                                </a>
-                            </ul>		
-                        </div>
+                        {{ render(controller('NutrividaLojaBundle:Loja/Carrinho:carrinhoTop')) }}
                         <div class="clearfix"></div>		   
                     </div>
                 </div>

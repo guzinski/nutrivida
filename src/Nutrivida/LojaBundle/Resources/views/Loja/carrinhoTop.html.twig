@@ -1,0 +1,16 @@
+<div class="shopping_cart">
+    <ul class="shopping_cart_top">
+        <a href="{{ path('_loja_carrinho') }}">
+            <li class="shop_left">Meu Carrinho</li>
+            <li class="shop_right"><img src="{{ asset('bundles/nutrividaloja/loja/images/arrow1.png') }}" alt=""/></li>
+            <div class="clearfix"></div>	
+        </a>
+    </ul>
+    <ul class="shopping_bag">
+        <a href="{{ path('_loja_carrinho') }}">
+            <li class="bag_left"><img src="{{ asset('bundles/nutrividaloja/loja/images/bag.png') }}" alt=""/></li>
+            <li class="bag_right"> {{ totalQtd }} Items | R$  {{ valorTotal|number_format(2, ',', '.') }}</li>
+            <div class="clearfix"></div>	
+        </a>
+    </ul>		
+</div>

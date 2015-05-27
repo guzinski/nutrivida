@@ -17,7 +17,24 @@
         <script src="{{ asset('bundles/nutrividaloja/loja/js/jquery.easydropdown.js') }}"></script>
         <script src="{{ asset('bundles/nutrividaloja/admin/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bundles/nutrividaloja/admin/js/bootbox.min.js') }}"></script>
-
+        <script>
+            function adicionarCarrinho(id) {
+                jQuery.get("{{ path("_loja_carrinho_adicionar") }}/"+id, function(msg) {
+                   bootbox.alert(msg);
+                });
+            }
+            
+            function  removerProduto(id){
+                bootbox.confirm("Tem certeza que deseja remover este produto do carrinho?", function(result) {
+                    if (result) {
+                        jQuery.get("{{ path("_loja_carrinho_remover") }}/"+id, function(msg) {
+                            location.href = "";
+                        });
+                    }
+                }); 
+            }
+        </script>
+        
         {% block head %}{% endblock %}
 
         <meta charset="utf-8">

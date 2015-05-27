@@ -25,9 +25,6 @@ class ClienteController extends Controller
      */
     public function indexAction() 
     {
-                $user = $this->getUser();
-        var_dump($user);
-
         return array();
     }
     
