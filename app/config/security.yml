@@ -1,23 +1,30 @@
 security:
     encoders:
         Nutrivida\LojaBundle\Entity\Usuario: plaintext
+        Nutrivida\LojaBundle\Entity\Cliente: plaintext
 
     providers:
-        main:
+        admin:
             entity: { class: NutrividaLojaBundle:Usuario, property: email }
+        loja:
+            entity: { class: NutrividaLojaBundle:Cliente, property: email }
 
     firewalls:
-        login_firewall:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin_login_firewall:
             pattern:   ^/admin/login$
             anonymous: ~
-        profile_firewall:
-            pattern:   ^/_profiler
+        cliente_login_firewall:
+            pattern:   ^/cliente/login$
             anonymous: ~
-        bar_firewall:
-            pattern:   ^/_wdt
+        cliente_cadastro_firewall:
+            pattern:   ^/cliente/cadastro$
             anonymous: ~
-        secured_area:
+        admin:
             pattern:    ^/admin/
+            provider: admin
             form_login: 
                 check_path: _login_check
                 login_path: _login
@@ -28,16 +35,32 @@ security:
                 path:   _logout
                 target: _index
             access_denied_handler: kernel.listener.access_denied.handler
+        loja:
+            pattern:    ^/
+            anonymous: ~
+            provider: loja
+            form_login: 
+                check_path: _login_cliente_check
+                login_path: _login_cliente
+                require_previous_session: false
+                always_use_default_target_path: true
+                default_target_path: /
+            logout:
+                path:   _logout_cliente
+                target: _loja_index
                 
     access_control:
-        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/_wdt, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/banner,       roles: ROLE_BANNER }        
-        - { path: ^/admin/produto,      roles: ROLE_PRODUTO }        
-        - { path: ^/admin/categoria,    roles: ROLE_CATEGORIA }        
-        - { path: ^/admin/news,         roles: ROLE_NEWS }        
-        - { path: ^/admin/empresa,      roles: ROLE_EMPRESA }        
-        - { path: ^/admin/cliente,      roles: ROLE_CLIENTE }        
-        - { path: ^/admin/usuario,      roles: ROLE_USUARIO }        
-        - { path: ^/admin/nivel,        roles: ROLE_NIVEL }        
+        - { path: ^/admin/login,        roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/banner,       roles: ROLE_BANNER }
+        - { path: ^/admin/produto,      roles: ROLE_PRODUTO }
+        - { path: ^/admin/categoria,    roles: ROLE_CATEGORIA }
+        - { path: ^/admin/news,         roles: ROLE_NEWS }
+        - { path: ^/admin/empresa,      roles: ROLE_EMPRESA }
+        - { path: ^/admin/cliente,      roles: ROLE_CLIENTE }
+        - { path: ^/admin/usuario,      roles: ROLE_USUARIO }
+        - { path: ^/admin/nivel,        roles: ROLE_NIVEL }
+        - { path: ^/cliente/login,      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/cliente/cadastro,   roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/cliente,            roles: ROLE_CLIENTE_LOJA }
+
         

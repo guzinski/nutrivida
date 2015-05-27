@@ -3,17 +3,19 @@
 namespace Nutrivida\LojaBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Nutrivida\LojaBundle\Entity\Pedido;
-use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * News
- *
+ * Cliente
+ * @UniqueEntity("email", message="Já existe um usuário com esse e-mail cadastrado")
  * @ORM\Table(name="cliente")
  * @ORM\Entity
  */
-class Cliente
+class Cliente implements UserInterface
 {
     /**
      * @var integer
@@ -34,7 +36,7 @@ class Cliente
     /**
      * @var integer
      *
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=150, nullable=false, unique=true)
      */
     private $email;
     
@@ -101,5 +103,31 @@ class Cliente
     {
         $this->pedidos = $pedidos;
     }
+    
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getPassword()
+    {
+        return $this->senha;
+    }
+
+    public function getRoles()
+    {
+        return array("ROLE_CLIENTE_LOJA");
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
 
 }

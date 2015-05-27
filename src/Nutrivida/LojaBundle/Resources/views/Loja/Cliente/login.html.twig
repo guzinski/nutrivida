@@ -1,0 +1,54 @@
+{% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
+{% block title %}Nutrivida Tramandaí RS{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block content %}
+        <ul class="breadcrumbs">
+            <div class="container">
+                <li class="home">
+                    <a href="{{ path('_loja_index') }}" title="Go to Home Page"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
+                    <span>&gt;</span>&nbsp;
+                </li>
+                <li class="home">
+                    NutriVida&nbsp; 
+                    <span>&gt;</span>
+                </li>
+                <li class="home">
+                    <span class="red"> &nbsp;Cliente&nbsp;</span>
+                </li>
+            </div>
+        </ul>
+        <div class="contact">
+            <div class="container">
+               <div class="account_grid">
+                    <div class="col-md-6 login-left">
+                          <h3>NOVO CLIENTE</h3>
+                          <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                          <a class="acount-btn" href="{{ path('_loja_cadastro_cliente') }}">Cadastre-se</a>
+                    </div>
+                    <div class="col-md-6 login-right">
+                        <h3>JÁ TENHO CADASTRO</h3>
+                        <p>Se você tem uma conta conosco, por favor faça o login.</p>
+                        <p>{{ error }}</p>
+                        <form method="POST" action="{{ path('_login_cliente_check') }}">
+                            <div>
+                                <span>E-mail<label>*</label></span>
+                                <input value="{{ last_username }}" type="text" name="_username" placeholder="E-mail" /> 
+                            </div>
+                            <div>
+                                <span>Senha<label>*</label></span>
+                                <input type="password" name="_password" placeholder="Senha" /> 
+                            </div>
+                            <a class="forgot" href="#">Esqueceu a senha?</a>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>	
+                    <div class="clearfix"> </div>
+                    </div>
+             </div>
+          </div>
+
+{% endblock %}

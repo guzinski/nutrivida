@@ -12,3 +12,8 @@ _login_check:
     pattern:    /admin/login/verificacao
 _logout:
     pattern:    /admin/login/sair
+
+_login_cliente_check:
+    pattern:    /cliente/login/verificacao
+_logout_cliente:
+    pattern:    /cliente/login/sair

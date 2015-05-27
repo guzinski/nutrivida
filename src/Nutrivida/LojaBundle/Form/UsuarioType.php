@@ -19,20 +19,20 @@ class UsuarioType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-                $builder->add('nome');
-                $builder->add('email', "email");
-                $builder->add('senha');
-                $builder->add('nivel', 'entity', array(
-                        'class'         => 'NutrividaLojaBundle:Nivel',
-                        'empty_value'   => 'Selecione',
-                        'empty_data'    => null,
-                        'label'         => 'Nível'
-                ));
-                $builder->add('ativo', 'choice', array(
-                    'choices' => array('1' => 'Sim', '0' => 'Não'),
-                    'expanded' => true,
-                    'label' => "Ativo",
-                ));
+        $builder->add('nome');
+        $builder->add('email', "email");
+        $builder->add('senha');
+        $builder->add('nivel', 'entity', array(
+                'class'         => 'NutrividaLojaBundle:Nivel',
+                'empty_value'   => 'Selecione',
+                'empty_data'    => null,
+                'label'         => 'Nível'
+        ));
+        $builder->add('ativo', 'choice', array(
+            'choices' => array('1' => 'Sim', '0' => 'Não'),
+            'expanded' => true,
+            'label' => "Ativo",
+        ));
 
     }
 
