@@ -182,8 +182,6 @@ class Usuario implements UserInterface
             $roles [] = $permissao->getRole();
         }
         $roles [] = "ROLE_USER";
-        var_dump($roles);
-        //die();
         return $roles;
     }
 

@@ -17,8 +17,9 @@ class DefaultController extends Controller
     {
         $banners = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Banner")->findBy(array("ativo"=>"1"));
         $categorias = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Categoria")->getProdutosDestaques();
+        $descontos = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->getProdutosComDesconto();
         
-        return array("banners"=>$banners, "categorias"=>$categorias);
+        return array("banners"=>$banners, "categorias"=>$categorias, "descontos"=>$descontos);
     }
     
     /**

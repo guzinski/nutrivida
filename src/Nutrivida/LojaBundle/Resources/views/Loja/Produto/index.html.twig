@@ -79,9 +79,11 @@
                         {% for prod in produto.getCategoria.getProdutos if prod != produto and prod.ativo %}
                         <li class="grid1_last">
                             <div class="view view-first">
-                                <img style="width: 260x; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt="">
+                                <a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
+                                    <img style="width: 260x; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt="">
+                                </a>
                                 <div class="tab_desc">
-                                    <h3><a href="#">{{ prod.nome }}</a></h3>
+                                    <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.nome }}</a></h3>
                                     <p>R$ {{ prod.valor|number_format(2, ',', '.') }}</p>
                                     <a href="javascript:adicionarCarrinho({{ prod.getId }})" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
                                 </div>

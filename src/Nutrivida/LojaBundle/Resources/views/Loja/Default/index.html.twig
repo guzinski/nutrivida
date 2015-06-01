@@ -88,14 +88,16 @@
                             {% for produto in categoria.getProdutos %}
                             <li {% if loop.last %} class="last" {% endif %}>
                                 <div class="view view-first">
-                                    <img style="width: 260px; height: 330px;" src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                    <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">
+                                        <img style="width: 260px; height: 330px;" src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                    </a>
                                     <div class="mask">
                                         <div class="info"> </div>
                                     </div>
                                     <div class="tab_desc">
                                         <h3><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">{{ produto.getNome }}</a></h3>
                                         <p>R$ {{ produto.getValor|number_format(2, ',', '.') }}</p>
-                                        <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
+                                        <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt="adicionar ao carrinho"/></a>
                                     </div>
                                 </div>
                                 {% if produto.desconto %} <div class="sale-box"> </div> {% endif %}
@@ -108,6 +110,36 @@
                 </div>	
             </div>
         </div>
+        {% if descontos|length>0 %}
+        <div class="clearence">
+            <div class="container">
+                <div class="m_3"><span class="left_line1"> </span><i class="clearence"> </i><span class="right_line1"> </span></div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="content_bottom">
+            <div class="container">
+                <ul class="grid1">
+                    {% for desconto in descontos %}
+                        <li {% if loop.last %} class="grid1_last" {% endif %}>
+                        <div class="view view-first">
+                            <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">
+                                <img style="width: 260px; height: 330px" src="{% path desconto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                            </a>
+                            <div class="tab_desc">
+                                <h3><a href="single.html">{{ desconto.getNome }}</a></h3>
+                                <p>R$ {{ desconto.getValor|number_format(2, ',', '.') }}</p>
+                                <a href="javascript:adicionarCarrinho({{ desconto.getId }})" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt="adicionar ao carrinho"/></a>
+                            </div>
+                        </div>
+                        <!--<div class="sale-box1"> </div>-->
+                    </li>
+                    {% endfor %}
+                    <div class="clearfix"> </div>
+                </ul>
+            </div>
+        </div>
+
 
 {% endblock %}
 

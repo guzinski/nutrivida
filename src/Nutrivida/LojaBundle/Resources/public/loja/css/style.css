@@ -2400,7 +2400,7 @@ a.forgot {
 	background:#000;
 }
 div.register-bottom-grid {
-	margin-top:3em;
+	/*margin-top:3em;*/
 }
 /*--responsive design--*/
 @media (max-width:1366px){

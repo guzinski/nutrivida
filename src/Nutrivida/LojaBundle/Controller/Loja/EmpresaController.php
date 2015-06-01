@@ -24,5 +24,23 @@ class EmpresaController extends Controller
         return array("empresa"=>$empresa);
     }
     
+    /**
+     * @Route("/nutrivida/pedidos", name="_loja_pedidos")
+     * @Template()
+     */
+    public function pedidosAction()
+    {
+        return array();
+    }
+    
+    /**
+     * @Route("/nutrivida/privacidade", name="_loja_privacidade")
+     * @Template()
+     */
+    public function privacidadeAction()
+    {
+        return array();
+    }
+    
     
 }

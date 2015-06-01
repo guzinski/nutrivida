@@ -44,7 +44,7 @@ security:
                 login_path: _login_cliente
                 require_previous_session: false
                 always_use_default_target_path: true
-                default_target_path: /
+                default_target_path: /carrinho
             logout:
                 path:   _logout_cliente
                 target: _loja_index

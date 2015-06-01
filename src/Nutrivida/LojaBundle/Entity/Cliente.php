@@ -43,6 +43,13 @@ class Cliente implements UserInterface
     /**
      * @var integer
      *
+     * @ORM\Column(type="string", length=20, nullable=false)
+     */
+    private $telefone;
+    
+    /**
+     * @var integer
+     *
      * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $senha;
@@ -128,6 +135,18 @@ class Cliente implements UserInterface
     {
         return $this->email;
     }
+
+    public function getTelefone()
+    {
+        return $this->telefone;
+    }
+
+    public function setTelefone($telefone)
+    {
+        $this->telefone = $telefone;
+        return $this;
+    }
+
 
 
 }

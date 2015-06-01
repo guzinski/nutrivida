@@ -42,6 +42,17 @@ class ProdutoRepository extends EntityRepository
         return $query->getQuery()->getResult();
     }
     
+    public function getProdutosComDesconto()
+    {
+        $query = $this->createQueryBuilder("P")
+                    ->andWhere("P.ativo = 1")
+                    ->andWhere("P.desconto = 1")
+                    ->setMaxResults(4)
+                    ->setFirstResult(0);
+        
+        return $query->getQuery()->getResult();
+    }
+    
     public function countProdutoAtivos($idCategoria = null, $destaque = null)
     {
         $query = $this->createQueryBuilder("P");

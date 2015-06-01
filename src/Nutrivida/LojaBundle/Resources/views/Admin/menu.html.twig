@@ -2,59 +2,78 @@
 
     <h5 class="leftpanel-title">Menu</h5>
     <ul class="nav nav-pills nav-stacked">
+        
         <li {% if app.request.get('_route') == '_index' %} class="active"{% endif %}>
             <a href="{{ path('_index') }}">
                 <i class="fa fa-home"></i> <span>Home</span>
             </a>
         </li>
-        <li class="parent {% if app.request.get('_route') starts with '_banner' %} active {% endif %}">
-            <a href=""><i class="fa fa-camera"></i> <span>Banners</span></a>
-            <ul class="children">
-                <li {% if app.request.get('_route') == '_banner' %} class="active" {% endif %}><a href="{{ path('_banner') }}">Listar</a></li>
-                <li {% if app.request.get('_route') == '_banner_form' %} class="active" {% endif %}><a href="{{ path('_banner_form') }}">Cadastrar</a></li>
-            </ul>
-        </li>
-        <li class="parent {% if app.request.get('_route') starts with '_produto' %} active {% endif %}">
-            <a href=""><i class="fa fa-cubes"></i> <span>Produtos</span></a>
-            <ul class="children">
-                <li {% if app.request.get('_route') == '_produto' %} class="active" {% endif %}><a href="{{ path('_produto') }}">Listar</a></li>
-                <li {% if app.request.get('_route') == '_produto_form'%} class="active" {% endif %}><a href="{{ path('_produto_form') }}">Cadastrar</a></li>
-            </ul>
-        </li>
-        <li class="parent {% if app.request.get('_route') starts with '_categoria' %} active {% endif %}">
-            <a href=""><i class="fa fa-list"></i> <span>Categorias</span></a>
-            <ul class="children">
-                <li {% if app.request.get('_route') == '_categoria' %} class="active" {% endif %}><a href="{{ path('_categoria') }}">Listar</a></li>
-                <li {% if app.request.get('_route') == '_categoria_form'%} class="active" {% endif %}><a href="{{ path('_categoria_form') }}">Cadastrar</a></li>
-            </ul>
-        </li>
-        <li {% if app.request.get('_route') == '_news' %} class="active" {% endif %}>
-            <a href="{{ path('_news') }}">
-                <i class="fa fa-edit"></i> <span>News</span>
-            </a>
-        </li>
-        <li {% if app.request.get('_route') == '_empresa' %} class="active" {% endif %}>
-            <a href="{{ path('_empresa') }}">
-                <i class="fa fa-suitcase"></i> <span>Empresa</span>
-            </a>
-        </li>
-        <li {% if app.request.get('_route') == '_cliente' %} class="active" {% endif %}>
-            <a href="{{ path('_cliente') }}">
-                <i class="fa fa-user-md"></i> <span>Clientes</span>
-            </a>
-        </li>
-        <li class="parent {% if app.request.get('_route') starts with '_usuario' %} active {% endif %}">
-            <a href=""><i class="fa fa-users"></i> <span>Usuários</span></a>
-            <ul class="children">
-                <li {% if app.request.get('_route') == '_usuario' %} class="active" {% endif %}><a href="{{ path('_usuario') }}">Listar</a></li>
-                <li {% if app.request.get('_route') == '_usuario_form'%} class="active" {% endif %}><a href="{{ path('_usuario_form') }}">Cadastrar</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{ path("_nivel") }}">
-                <i class="fa  fa-gear"></i> <span>Configurações</span>
-            </a>
-        </li>
+        {% for role in app.user.getRoles %}
+            {% if role == 'ROLE_BANNER' %}
+            <li class="parent {% if app.request.get('_route') starts with '_banner' %} active {% endif %}">
+                <a href=""><i class="fa fa-camera"></i> <span>Banners</span></a>
+                <ul class="children">
+                    <li {% if app.request.get('_route') == '_banner' %} class="active" {% endif %}><a href="{{ path('_banner') }}">Listar</a></li>
+                    <li {% if app.request.get('_route') == '_banner_form' %} class="active" {% endif %}><a href="{{ path('_banner_form') }}">Cadastrar</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_PRODUTO' %}
+            <li class="parent {% if app.request.get('_route') starts with '_produto' %} active {% endif %}">
+                <a href=""><i class="fa fa-cubes"></i> <span>Produtos</span></a>
+                <ul class="children">
+                    <li {% if app.request.get('_route') == '_produto' %} class="active" {% endif %}><a href="{{ path('_produto') }}">Listar</a></li>
+                    <li {% if app.request.get('_route') == '_produto_form'%} class="active" {% endif %}><a href="{{ path('_produto_form') }}">Cadastrar</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_CATEGORIA' %}
+            <li class="parent {% if app.request.get('_route') starts with '_categoria' %} active {% endif %}">
+                <a href=""><i class="fa fa-list"></i> <span>Categorias</span></a>
+                <ul class="children">
+                    <li {% if app.request.get('_route') == '_categoria' %} class="active" {% endif %}><a href="{{ path('_categoria') }}">Listar</a></li>
+                    <li {% if app.request.get('_route') == '_categoria_form'%} class="active" {% endif %}><a href="{{ path('_categoria_form') }}">Cadastrar</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_NEWS' %}
+            <li {% if app.request.get('_route') == '_news' %} class="active" {% endif %}>
+                <a href="{{ path('_news') }}">
+                    <i class="fa fa-edit"></i> <span>News</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_EMPRESA' %}
+            <li {% if app.request.get('_route') == '_empresa' %} class="active" {% endif %}>
+                <a href="{{ path('_empresa') }}">
+                    <i class="fa fa-suitcase"></i> <span>Empresa</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_CLIENTE' %}
+            <li {% if app.request.get('_route') == '_cliente' %} class="active" {% endif %}>
+                <a href="{{ path('_cliente') }}">
+                    <i class="fa fa-user-md"></i> <span>Clientes</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_USUARIO' %}
+            <li class="parent {% if app.request.get('_route') starts with '_usuario' %} active {% endif %}">
+                <a href=""><i class="fa fa-users"></i> <span>Usuários</span></a>
+                <ul class="children">
+                    <li {% if app.request.get('_route') == '_usuario' %} class="active" {% endif %}><a href="{{ path('_usuario') }}">Listar</a></li>
+                    <li {% if app.request.get('_route') == '_usuario_form'%} class="active" {% endif %}><a href="{{ path('_usuario_form') }}">Cadastrar</a></li>
+                </ul>
+            </li>
+            {% endif %}
+            {% if role == 'ROLE_NIVEL' %}
+            <li>
+                <a href="{{ path("_nivel") }}">
+                    <i class="fa  fa-gear"></i> <span>Configurações</span>
+                </a>
+            </li>
+            {% endif %}
+        {% endfor %}
     </ul>
 
 </div><!-- leftpanel -->

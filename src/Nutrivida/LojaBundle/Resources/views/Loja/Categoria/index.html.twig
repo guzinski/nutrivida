@@ -118,7 +118,9 @@
                             {% for prod in produtos %}
                                 <li {% if loop.index%3==0 %} class="grid-4_last" {% endif %}>
                                     <div class="view view-first">
-                                        <img style="width: 260px; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                        <a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
+                                            <img style="width: 260px; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                        </a>
                                         <div class="product_mask"> </div>
                                         <div class="tab_desc1">
                                             <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.getNome }}</a></h3>

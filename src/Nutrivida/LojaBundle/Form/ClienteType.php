@@ -29,6 +29,7 @@ class ClienteType extends AbstractType
     {
         $builder->add('nome');
         $builder->add('email', "email");
+        $builder->add('telefone', "text");
         $builder->add("senha", 'repeated', array(
                             'type' => 'password',
                             'invalid_message' => 'Senha não são iguais.',

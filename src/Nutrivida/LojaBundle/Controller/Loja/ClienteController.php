@@ -59,7 +59,7 @@ class ClienteController extends Controller
         if ($form->isValid()) {
             $em->persist($cliente);
             $em->flush();
-            return $this->redirectToRoute("_loja_cliente");
+            return $this->redirectToRoute("_loja_carrinho");
         }
         
         return array("cliente"=>$cliente, "form"=>$form->createView());
