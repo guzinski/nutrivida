@@ -53,7 +53,7 @@
                         <article style="position: relative; width: 100%; opacity: 1;"> 
                             <div class="banner-wrap">
                                 <div class="banner_left">
-                                    <img style="width: 558px; height:435px " src="{% path destaque.getImagens.get(0).media, 'produto_banner' %}" class="img-responsive" alt=""/>
+                                    <img style="width: 520px; height: 660px " src="{% path destaque.getImagens.get(0).media, 'produto_banner' %}" class="img-responsive" alt=""/>
                                 </div>
                                 <div class="banner_right">
                                     <h1>><a href="{{ path('_loja_produto', {slugCategoria: destaque.getCategoria.getSlug, slug: destaque.getSlug}) }}">{{ destaque.getNome }}</a></h1>

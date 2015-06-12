@@ -92,7 +92,7 @@ sonata_media:
                 small:          { width: 100, quality: 70}
                 big:            { width: 500, quality: 70}
                 produto:        { width: 260, height: 330, quality: 70}
-                produto_banner: { width: 558, quality: 70}
+                produto_banner: { width: 520, quality: 70}
                 banner:         { width: 1400, quality: 90}
 
     cdn:
