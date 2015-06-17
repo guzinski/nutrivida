@@ -945,7 +945,7 @@ ul.tab_img{
 }
 ul.tab_img li {
 	float: left;
-	width: 15%;
+	/*width: 15%;*/
 	margin-right: 2%;
 }
 ul.tab_img li.last{
@@ -1157,7 +1157,7 @@ ul.grid1 {
 }
 ul.grid1 li {
 	float: left;
-	width: 23%;
+	/*width: 23%;*/
 	margin-right: 2.6%;
 }
 ul.grid1 li.grid1_last {
@@ -2868,7 +2868,7 @@ span.left_line1, span.right_line1 {
 	padding: 2em 0 0em;
 }
 ul.grid1 li {
-	width: 47%;
+	/*width: 47%;*/
 }
 .brands {
 	padding: 2em 0 0em;

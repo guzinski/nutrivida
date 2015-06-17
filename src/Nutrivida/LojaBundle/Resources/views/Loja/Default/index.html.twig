@@ -89,7 +89,7 @@
                             <li {% if loop.last %} class="last" {% endif %}>
                                 <div class="view view-first">
                                     <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">
-                                        <img style="width: 260px; height: 330px;" src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                        <img src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                                     </a>
                                     <div class="mask">
                                         <div class="info"> </div>
@@ -124,7 +124,7 @@
                         <li {% if loop.last %} class="grid1_last" {% endif %}>
                         <div class="view view-first">
                             <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">
-                                <img style="width: 260px; height: 330px" src="{% path desconto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                <img src="{% path desconto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                             </a>
                             <div class="tab_desc">
                                 <h3><a href="single.html">{{ desconto.getNome }}</a></h3>

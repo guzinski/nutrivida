@@ -44,7 +44,7 @@
                 </li>
             </div>
         </ul>
-        
+        {#
         <div class="product_banner">
             <div class="container">
                 <div class="wmuSlider example1">
@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        
+        #}
         <div class="products_top">
             <div class="container">
                 <div class="col-md-9">
@@ -113,15 +113,15 @@
                         </div>
                         <div class="clearfix"></div>		
                     </div>
-                    <div class="product_box1">   
+                    <div class="product_box1">
                         <ul class="grid-4">
                             {% for prod in produtos %}
                                 <li {% if loop.index%3==0 %} class="grid-4_last" {% endif %}>
                                     <div class="view view-first">
-                                        <a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
-                                            <img style="width: 260px; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
+                                        <a style="display: block;" href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
+                                            <img style="display: block;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                                         </a>
-                                        <div class="product_mask"> </div>
+                                        {# <div class="product_mask"> </div> #}
                                         <div class="tab_desc1">
                                             <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.getNome }}</a></h3>
                                             <p>R$ {{ prod.getValor|number_format(2, ',', '.') }}</p>
