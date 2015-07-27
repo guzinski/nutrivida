@@ -52,6 +52,42 @@ class Produto
     private $valor;
     
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     */
+    private $peso = 1;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     */
+    private $largura = 1;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     */
+    private $comprimento = 1;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     */
+    private $altura = 1;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $tipoEmbalagem = 1;
+
+    
+    /**
      * @Slug(fields={"nome"})
      * @ORM\Column(length=150, unique=true)
      */
@@ -280,7 +316,56 @@ class Produto
         $this->slug = $slug;
     }
 
+    public function getPeso()
+    {
+        return $this->peso;
+    }
 
+    public function getLargura()
+    {
+        return $this->largura;
+    }
+
+    public function getComprimento()
+    {
+        return $this->comprimento;
+    }
+
+    public function setPeso($peso)
+    {
+        $this->peso = $peso;
+    }
+
+    public function setLargura($largura)
+    {
+        $this->largura = $largura;
+    }
+
+    public function setComprimento($comprimento)
+    {
+        $this->comprimento = $comprimento;
+    }
+
+
+    public function getAltura()
+    {
+        return $this->altura;
+    }
+
+    public function setAltura($altura)
+    {
+        $this->altura = $altura;
+    }
+
+    public function getTipoEmbalagem()
+    {
+        return $this->tipoEmbalagem;
+    }
+
+    public function setTipoEmbalagem($tipoEmbalagem)
+    {
+        $this->tipoEmbalagem = $tipoEmbalagem;
+    }
 
 
 }

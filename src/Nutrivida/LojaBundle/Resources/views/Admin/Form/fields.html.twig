@@ -72,6 +72,18 @@
 {% endspaceless %}
 {% endblock _produto_destaqueCategoria_widget %}
 
+{% block _produto_tipoEmbalagem_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _produto_tipoEmbalagem_widget %}
+
 
 
 

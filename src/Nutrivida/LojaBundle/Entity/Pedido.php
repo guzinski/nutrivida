@@ -59,7 +59,24 @@ class Pedido
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $data;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $tipoFrete = 0;
 
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     */
+    private $valorFrete;
+    
+    
+    
 
     
     public function __construct()
@@ -107,6 +124,27 @@ class Pedido
     {
         $this->data = $data;
     }
+
+    public function getTipoFrete()
+    {
+        return $this->tipoFrete;
+    }
+
+    public function getValorFrete()
+    {
+        return $this->valorFrete;
+    }
+
+    public function setTipoFrete($tipoFrete)
+    {
+        $this->tipoFrete = $tipoFrete;
+    }
+
+    public function setValorFrete($valorFrete)
+    {
+        $this->valorFrete = $valorFrete;
+    }
+
 
 
     

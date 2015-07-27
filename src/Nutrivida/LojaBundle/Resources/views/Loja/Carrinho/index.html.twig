@@ -3,8 +3,75 @@
 
 {% block head %}
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskedinput.min.js') }}"></script>
 <script>
-    
+    jQuery(document).ready(function(){
+        jQuery("#cep_frete").mask(
+            "99999-999",
+            {completed:function(){
+                var url = "{{ path("_loja_carrinho_calcula_frete") }}/"+this.val();
+                jQuery.post(url, {}, setFrete, "json")
+            }}
+        ).bind({
+                paste : function(){
+                    setTimeout(function () {
+                        var cep = jQuery("#cep_frete").val();
+                        var url = "{{ path("_loja_carrinho_calcula_frete") }}/"+cep;
+                        jQuery.post(url, {}, setFrete, "json")
+                    }, 500);
+                }
+        });
+        
+    });
+
+    function setFrete(result) {
+        var html = "";
+        var data;
+        var frete;
+        var table = jQuery("#calculoFrete tbody");
+        for (var key in result) {
+            data = result[key];
+            frete = data.CalcPrecoPrazoResult.Servicos.cServico;
+            if (frete.Erro != "0") {
+                html += "<tr>";
+                if ( frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }}" ) {
+                    html += "<td>";
+                    html += "Sedex";
+                    html += "</td>";
+                } else if (frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::pac')  }}" ) {
+                    html += "<td>";
+                    html += "PAC";
+                    html += "</td>";
+                }
+                html += "<td>";
+                html += frete.MsgErro;
+                html += "</td>";
+                html += "</tr>";
+            } else {
+                html += "<tr>";
+                if ( frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }}" ) {
+                    html += "<td><input value=\""+frete.Codigo+"|"+frete.Valor.toString()+"\" type=\"radio\" name=\"opcaoFrete\" id=\"opcao1\" /></td>";
+                    html += "<td><label for=\"opcao1\">Sedex</label></td>";
+                } else if (frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::pac')  }}" ) {
+                    html += "<td><input value=\""+frete.Codigo+"|"+frete.Valor.toString()+"\" type=\"radio\" name=\"opcaoFrete\" id=\"opcao2\" /></td>";
+                    html += "<td><label for=\"opcao2\">PAC</label></td>";
+                }
+                html += "<td>";
+                html += "R$ "+frete.Valor.toString();
+                html += "</td>";
+                html += "</tr>";
+            }            
+        }
+        table.html(html);
+        
+        jQuery('input[name=opcaoFrete]').change(function() {
+            var res = this.value.split("|");
+            var valor = moeda2float(res[1]);
+            valor = valor + parseFloat(jQuery("#valorTotalPedido").val());
+            jQuery("#labelValorTotalPedido").text("Total: R$ "+float2moeda(valor));
+        });
+    }
+
     function alterarQuantidade(id, qtd) {
         jQuery.get("{{ path("_loja_carrinho_alterar_quantidade") }}/"+id+"/"+qtd, function(msg) {
             location.href = "";
@@ -14,9 +81,15 @@
         location.href = "{{ path('_loja_index') }}";
     }
     function  finalizarPedido() {
+        var frete = jQuery('input[name="opcaoFrete"]:checked').val();
+        var cep = jQuery("#cep_frete").val();
+        if (frete == undefined) {
+            bootbox.alert("Você precisa selecionar o tipo de frete");
+            return ;
+        }
         bootbox.confirm("Tem certea de que deseja finalizar o pedido?", function(result) {
             if (result) {
-                jQuery.get("{{ path("_loja_carrinho_finalizar") }}", function(data) {
+                jQuery.get("{{ path("_loja_carrinho_finalizar") }}", {frete: frete, cep: cep}, function(data) {
                     if (data.user == 0) {
                         location.href = "{{ path('_login_cliente') }}";
                     } 
@@ -27,6 +100,44 @@
             }
         });
     }
+    
+    function moeda2float(moeda) {
+        if (moeda=="") {
+            return 0;
+        }
+        moeda = moeda.replace("R$ ","");
+        moeda = moeda.replace(".","");
+        moeda = moeda.replace(",",".");
+
+        return parseFloat(moeda);
+    }
+    
+    function float2moeda(num) {
+        x = 0;
+        if(num<0) {
+           num = Math.abs(num);
+           x = 1;
+        }
+        if(isNaN(num)) num = "0";
+           cents = Math.floor((num*100+0.5)%100);
+        num = Math.floor((num*100+0.5)/100).toString();
+
+        if(cents < 10) cents = "0" + cents;
+           for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+              num = num.substring(0,num.length-(4*i+3))+'.'
+                    +num.substring(num.length-(4*i+3));
+
+        ret = num + ',' + cents;
+
+        if (x == 1) {
+            ret = ' - ' + ret;
+        }
+        return "R$ "+ret;
+    }
+
+
+    
+    
 </script>
 {% endblock %}
 
@@ -58,7 +169,7 @@
                             <tr>
                                 <th class="hidden-xs"></th>
                                 <th>Produto</th>
-                                <th>Qntd./th>
+                                <th>Qntd</th>
                                 <th>Total</th>
                                 <th></th>
                             </tr>
@@ -84,10 +195,31 @@
                             
                         </tbody>
                     </table>
+                    {% if produtos|length > 0 %}
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Calcule o frete: 
+                                </td>
+                                <td>
+                                    <form class="form">
+                                        <input class="input-sm" id="cep_frete" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% endif %}
+                    <table id="calculoFrete" class="table table-striped">
+                        <tbody>
+                        </tbody>
+                    </table>
                     
                     <div class="row">
                         <div class="col-sm-7">
-                            <h2>Total: R$ {{ valor|number_format(2, ',', '.') }}</h2>
+                            <h2 id="labelValorTotalPedido">Total: R$ {{ valor|number_format(2, ',', '.') }}</h2>
+                            <input type="hidden" id="valorTotalPedido" value="{{ valor }}" />
                         </div>
                         <div class="col-sm-5 text-right">
                             <button onclick="finalizarPedido()" class="btn btn-theme-bg margin10">Finalizar Pedido</button>

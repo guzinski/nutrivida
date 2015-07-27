@@ -22,6 +22,10 @@ class ProdutoTyoe extends AbstractType
                 $builder->add('nome');
                 $builder->add('descricao', 'textarea', array("label"=> "Descrição"));
                 $builder->add('valor', 'money', array("currency"=>"", "grouping"=>false));
+                $builder->add('peso', 'money', array("currency" => "", "grouping" => false, "label" => "Peso do produto (com em balagem em Kg)"));
+                $builder->add('largura', 'money', array("currency"=>"", "grouping"=>false, "label" => "Largura da Embalagem em cm"));
+                $builder->add('comprimento', 'money', array("currency"=>"", "grouping"=>false, "label" => "Comprimento da Embalagem em cm"));
+                $builder->add('altura', 'money', array("currency"=>"", "grouping"=>false, "label" => "Altura da Embalagem em cm"));
                 $builder->add('categoria', 'entity', array(
                         'class'         => 'NutrividaLojaBundle:Categoria',
                         'empty_value'   => 'Selecione',
@@ -33,6 +37,12 @@ class ProdutoTyoe extends AbstractType
                     'expanded' => true,
                     'label' => "Destaque da Categoria",
                 ));
+                $builder->add('tipoEmbalagem', 'choice', array(
+                    'choices' => array('1' => 'Caixa/Pacote', '2' => 'Rolo/Prisma'),
+                    'expanded' => true,
+                    'label' => "Formato da Embalagem Embalagem",
+                ));
+                
                 $builder->add('desconto', 'choice', array(
                     'choices' => array('1' => 'Sim', '0' => 'Não'),
                     'expanded' => true,
