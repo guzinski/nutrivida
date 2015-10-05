@@ -1,56 +1,138 @@
 {% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
 {% block title %}Nutrivida Tramandaí RS{% endblock %}
-{% block head %}
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/responsiveslides.min.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/easyResponsiveTabs.js') }}"></script>
-    
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/easyResponsiveTabs.js') }}"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery("#slider").responsiveSlides({
-                auto: true,
-                nav: true,
-                speed: 500,
-                namespace: "callbacks",
-                pager: true,
-            });
-            jQuery('#horizontalTab').easyResponsiveTabs({
-                type: 'default', //Types: default, vertical, accordion           
-                width: 'auto', //auto or any width like 600px
-                fit: true   // 100% fit in a container
-            });
-        });
-        
-        function enviarNews()
-        {
-            var email = jQuery("#news").val();
-            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-            if (re.test(email)) {
-                jQuery.post('{{ path('_loja_news') }}', {email: email}, function(msg) {
-                    bootbox.alert(msg);
-                });
-            } else {
-                bootbox.alert("E-mail Inválido");
-            }
-        }
-    </script>
-
-{% endblock %}
-
 
 {% block content %}
-
-<div class="slider">
-    <div class="callbacks_container">
-        <ul class="rslides" id="slider">
-            {% for banner in banners %}
-            <li><img src="{% path banner.media, 'banner' %}" class="img-responsive" alt=""/></li>
-            {% endfor %}
-        </ul>
-    </div>
-</div>
         
-<div class="column_center">
+    <div class="banner">
+        <div class="full-container">
+            <div class="slider-content">
+                <ul id="pager2" class="container">
+                </ul>
+                <span class="prevControl sliderControl"> <i class="fa fa-angle-left fa-3x "></i></span> <span class="nextControl sliderControl"> <i class="fa fa-angle-right fa-3x "></i></span>
+                <div class="slider slider-v1" 
+                     data-cycle-swipe=true
+                     data-cycle-prev=".prevControl"
+                     data-cycle-next=".nextControl" data-cycle-loader="wait">
+                    {% for banner in banners %}
+                    <div class="slider-item slider-item-img{{ loop.index }}"> <img src="{% path banner.media, 'banner' %}" class="img-responsive parallaximg sliderImg" alt="img"> </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-container"> 
+
+        <div class="row featuredPostContainer globalPadding style2">
+            <h3 class="section-title style2 text-center"><span>PRODUTOS DETAQUES</span></h3>
+            <div id="productslider" class="owl-carousel owl-theme">
+                {% for categoria in categorias %}
+                    {% for produto in categoria.getProdutos %}
+                    <div class="item">
+                        <div class="product">
+                            <div class="image">  
+                                <div class="quickview">
+                                </div>
+                                <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">
+                                    <img src="{% path produto.getImagens.get(0).media, 'produto' %}" alt="img" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="description">
+                                <h4><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">SNACK TEE </a></h4>
+                                <p>{{ produto.getNome }}</p>
+                            </div>
+                            <div class="price"> <span>R$ {{ produto.getValor|number_format(2, ',', '.') }}</span> </div>
+                            <div class="action-control">
+                                <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn btn-primary">
+                                    <span class="add2cart">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> 
+                                        Add to cart 
+                                    </span> 
+                                </a> </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <!--/.productslider--> 
+
+        </div>
+        <!--/.featuredPostContainer--> 
+    </div>
+    <div class="parallax-section parallax-image-1">
+      <div class="container">
+        <div class="row ">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="parallax-content clearfix">
+              <h1 class="parallaxPrce"> COMPRAS ACIMA DE R$300,00 </h1>
+              <h2 class="uppercase">frete gratuito para todo os Estado do RS</h2>
+              <div style="clear:both"></div>
+              <a class="btn btn-discover "> <i class="fa fa-shopping-cart"></i> COMPRAR </a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main-container"> 
+        <div class="morePost row featuredPostContainer style2 globalPaddingTop " >
+            <h3 class="section-title style2 text-center"><span>PRODUTOS COM DESCONTOS</span></h3>
+            <div class="container">
+                <div class="row xsResponse">
+                    {% for desconto in descontos %}
+                    <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                        <div class="product">
+                            <div class="image">  
+                                <div class="quickview">
+                                </div>
+                                <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">
+                                    <img src="{% path desconto.getImagens.get(0).media, 'produto' %}" alt="img" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="description">
+                                <h4>
+                                    <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">Cranberry</a>
+                                </h4>
+                                <p>{{ desconto.getNome }} </p>
+                            </div>
+                            <div class="price">
+                                <span>R$ {{ desconto.getValor|number_format(2, ',', '.') }}</span> 
+                                <span class="old-price">R$ {{ (desconto.getValor*1.2)|number_format(2, ',', '.') }}</span> 
+                            </div>
+                            <div class="action-control">
+                                <a href="javascript:adicionarCarrinho({{ desconto.getId }})" class="btn btn-primary">
+                                    <span class="add2cart">
+                                        <i class="glyphicon glyphicon-shopping-cart"> </i> Adicionar 
+                                    </span> 
+                                </a> 
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    <div class="load-more-block text-center"> <a class="btn btn-thin" href="#"> <i class="fa fa-plus-sign">+</i> Ver todos produtos</a> </div>
+                </div>
+            </div>
+            <!--/.container--> 
+        </div>
+        <!--/.featuredPostContainer-->
+
+        <hr class="no-margin-top">
+        <div class="width100 section-block ">
+            <div class="row featureImg">
+                <div class="col-md-3 col-sm-3 col-xs-6"> <a href="category.html"><img src="{{ asset('bundles/nutrividaloja/loja/images/site/new-collection-1.jpg') }}" class="img-responsive" alt="img" ></a> </div>
+                <div class="col-md-3 col-sm-3 col-xs-6"> <a href="category.html"><img src="{{ asset('bundles/nutrividaloja/loja/images/site/new-collection-2.jpg') }}" class="img-responsive" alt="img" ></a> </div>
+                <div class="col-md-3 col-sm-3 col-xs-6"> <a href="category.html"><img src="{{ asset('bundles/nutrividaloja/loja/images/site/new-collection-1.jpg') }}" class="img-responsive" alt="img" ></a> </div>
+                <div class="col-md-3 col-sm-3 col-xs-6"> <a href="category.html"><img src="{{ asset('bundles/nutrividaloja/loja/images/site/new-collection-2.jpg') }}" class="img-responsive" alt="img"></a> </div>
+            </div>
+        </div>
+    </div>
+
+                
+        
+        
+{#<div class="column_center">
   <div class="container">
 	<div class="search">
 	  <div class="stay">Assine nossa newsletter</div>
@@ -70,75 +152,7 @@
 	<div class="clearfix"> </div>
   </div>
 </div>
-
-        
-        <div class="sap_tabs">	
-            <div class="m_3"><span class="left_line"> </span><h3>Produtos em destaque</h3><span class="right_line"> </span></div>
-            <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-                <ul class="resp-tabs-list">
-                    {% for categoria in categorias %}
-                    <li class="resp-tab-item" aria-controls="tab_item-{{ loop.index }}" role="tab"><span>{{ categoria.getNome }}</span></li>
-                    {% endfor %}
-                    <div class="clear"></div>
-                </ul>				  	 
-                <div class="resp-tabs-container">
-                    {% for categoria in categorias %}
-                    <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-{{ loop.index }}">
-                        <ul class="tab_img">
-                            {% for produto in categoria.getProdutos %}
-                            <li {% if loop.last %} class="last" {% endif %}>
-                                <div class="view view-first">
-                                    <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">
-                                        <img src="{% path produto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
-                                    </a>
-                                    <div class="mask">
-                                        <div class="info"> </div>
-                                    </div>
-                                    <div class="tab_desc">
-                                        <h3><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">{{ produto.getNome }}</a></h3>
-                                        <p>R$ {{ produto.getValor|number_format(2, ',', '.') }}</p>
-                                        <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt="adicionar ao carrinho"/></a>
-                                    </div>
-                                </div>
-                                {% if produto.desconto %} <div class="sale-box"> </div> {% endif %}
-                            </li>
-                            {% endfor %}
-                            <div class="clearfix"></div>
-                        </ul>
-                    </div>
-                    {% endfor %}
-                </div>	
-            </div>
-        </div>
-        {% if descontos|length>0 %}
-        <div class="clearence">
-            <div class="container">
-                <div class="m_3"><span class="left_line1"> </span><i class="clearence"> </i><span class="right_line1"> </span></div>
-            </div>
-        </div>
-        {% endif %}
-        <div class="content_bottom">
-            <div class="container">
-                <ul class="grid1">
-                    {% for desconto in descontos %}
-                        <li {% if loop.last %} class="grid1_last" {% endif %}>
-                        <div class="view view-first">
-                            <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">
-                                <img src="{% path desconto.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
-                            </a>
-                            <div class="tab_desc">
-                                <h3><a href="single.html">{{ desconto.getNome }}</a></h3>
-                                <p>R$ {{ desconto.getValor|number_format(2, ',', '.') }}</p>
-                                <a href="javascript:adicionarCarrinho({{ desconto.getId }})" class="btn1 btn-primary1"><span>Adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt="adicionar ao carrinho"/></a>
-                            </div>
-                        </div>
-                        <!--<div class="sale-box1"> </div>-->
-                    </li>
-                    {% endfor %}
-                    <div class="clearfix"> </div>
-                </ul>
-            </div>
-        </div>
+#}
 
 
 {% endblock %}

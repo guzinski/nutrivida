@@ -40,18 +40,9 @@ class Pedido
     
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Produto", inversedBy="pedidos", cascade={"persist"})
-     * @ORM\JoinTable(name="produto_pedido",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="pedido", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="produto", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $produtos;
+     * @ORM\OneToMany(targetEntity="ProdutoPedido", mappedBy="pedido", cascade={"all"})
+     **/
+    private $produtosPedido;
     
     /**
      * @var DateTime
@@ -76,13 +67,10 @@ class Pedido
     private $valorFrete;
     
     
-    
-
-    
     public function __construct()
     {
         $this->setData(new \DateTime("now"));
-        $this->setProdutos(new ArrayCollection());
+        $this->setProdutosPedido(new ArrayCollection());
     }
     
     function getId()
@@ -95,10 +83,6 @@ class Pedido
         return $this->cliente;
     }
 
-    function getProdutos()
-    {
-        return $this->produtos;
-    }
 
     function getData()
     {
@@ -115,10 +99,6 @@ class Pedido
         $this->cliente = $cliente;
     }
 
-    function setProdutos(Collection $produtos)
-    {
-        $this->produtos = $produtos;
-    }
 
     function setData(DateTime $data)
     {
@@ -144,6 +124,17 @@ class Pedido
     {
         $this->valorFrete = $valorFrete;
     }
+    
+    public function getProdutosPedido()
+    {
+        return $this->produtosPedido;
+    }
+
+    public function setProdutosPedido(Collection $produtosPedido)
+    {
+        $this->produtosPedido = $produtosPedido;
+    }
+
 
 
 

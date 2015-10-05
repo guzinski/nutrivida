@@ -1,63 +1,86 @@
-            <div class="header_top">
-                <div class="container">
-                    <div class="header_top_left">
-                        <p>+55 51 3661.4734</p>
-                    </div>
-                    <div class="header_top_right">
-                        <ul class="header_user_info" style="padding:2px 0 5px 0">
-                            {% if app.user %}
-                            <a href="{{ path("_loja_cliente") }}" class="login">
-                                <i class="user"></i> 
-                                <li class="user_desc">Bem-vindo, {{ app.user.nome }}</li>
-                            </a>
-                            <a href="{{ path("_logout_cliente") }}" class="login">
-                                <li class="user_logout">Sair</li>
-                            </a>
-                            {% else %}
-                            <a href="{{ path("_loja_cliente") }}" class="login">
-                                <i class="user"></i> 
-                                <li class="user_desc">Minha Conta</li>
-                            </a>
-                            {% endif %}
-                            <div class="clearfix"> </div>
+<div class="navbar navbar-tshop navbar-fixed-top megamenu" role="navigation">
+    <div class="navbar-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                    <div class="pull-left ">
+                        <ul class="userMenu ">
+                            <li class="phone-number"> <a href="callto:+555136614734"> <span> <i class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs" style="margin-left:5px"> +55 51 3661.4734 </span> </a> </li>
                         </ul>
-                        <div class="main-search">
-                            <form action="search.html">
-                                <input type="text" value="Pesquisar" onFocus="this.value = '';" onBlur="if (this.value == '') {
-                                    this.value = 'Search';
-                                }" class="text"/>
-                                <input type="submit" value=""/>
-                            </form>
-                            <div class="close"><img src="{{ asset('bundles/nutrividaloja/loja/images/close.png') }}" /></div>
-                        </div>
-                        <div class="srch"><button></button></div>
-                        <div class="clearfix"> </div>
-                        <script type="text/javascript">
-                            $('.main-search').hide();
-                            $('button').click(function () {
-                                $('.main-search').show();
-                                $('.main-search text').focus();
-                            }
-                            );
-                            $('.close').click(function () {
-                                $('.main-search').hide();
-                            });
-                        </script>
                     </div>
-                    <div class="clearfix"> </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 no-margin no-padding">
+                    <div class="pull-right">
+                        <ul class="userMenu">
+                            <li>
+                                <a href="{{ path("_loja_cliente") }}">
+                                    <span class="hidden-xs">minha conta</span> <i class="glyphicon glyphicon-user hide visible-xs"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path("_loja_cliente") }}" data-toggle="modal" data-target="#ModalLogin">
+                                    <span class="hidden-xs">login</span> <i class="glyphicon glyphicon-log-in hide visible-xs"></i>
+                                </a>
+                            </li>
+                            <li class="hidden-xs">
+                                <a href="{{ path("_loja_cliente") }}" data-toggle="modal" data-target="#ModalSignup">criar conta</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="header_bottom">
-                <div class="container">	 			
-                    <div class="logo">
-                        <a href="{{ path('_loja_index') }}"><img src="{{ asset('bundles/nutrividaloja/loja/images/logo.png') }}" alt=""/></a>
-                    </div>	
-                    <div class="header_bottom_right">
-                        <div class="h_menu4">
-                            {{ render(controller('NutrividaLojaBundle:Loja/Default:renderMenu')) }}
-                        </div><!-- end h_menu4 -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only"> Toggle navigation </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"> <i class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite"> Cart ($210.00) </span> </button>
+            <a href="{{ path('_loja_index') }}" class="navbar-brand" title="NutriVida Tramandaí RS">
+                <img src="{{ asset('bundles/nutrividaloja/loja/images/logo.png') }}" alt="NutriVida Tramandaí RS" title="NutriVida Tramandaí RS" height="52" />
+            </a>
+
+            <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
+                <div class="input-group">
+                    <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-cart collapse">
+            <div class="cartMenu col-lg-4 col-xs-12 col-md-4 ">
+                {{ render(controller('NutrividaLojaBundle:Loja/Carrinho:carrinhoTop')) }}
+            </div>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            {{ render(controller('NutrividaLojaBundle:Loja/Default:renderMenu')) }}
+            
+            <div class="nav navbar-nav navbar-right hidden-xs">
+                <div class="dropdown cartMenu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-shopping-cart"> </i>
+                        <span class="cartRespons"> &nbsp; R$ 17,80 </span>
+                        <b class="caret"> </b>
+                    </a>
+
+                    <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
                         {{ render(controller('NutrividaLojaBundle:Loja/Carrinho:carrinhoTop')) }}
-                        <div class="clearfix"></div>		   
+                    </div>
+                </div>
+
+                <div class="search-box">
+                    <div class="input-group">
+                        <button class="btn btn-nobg getFullSearch" type="button"> <i class="fa fa-search"> </i> </button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="search-full text-right"> <a class="pull-right search-close"> <i class=" fa fa-times-circle"> </i> </a>
+        <div class="searchInputBox pull-right">
+            <input type="search" data-searchurl="search?=" name="q" placeholder="digite o produto que procuras" class="search-input">
+            <button class="btn-nobg search-btn" type="submit"> <i class="fa fa-search"> </i> </button>
+        </div>
+    </div>
+</div>

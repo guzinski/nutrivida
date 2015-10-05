@@ -12,11 +12,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Produto
  *
- * @ORM\Table(name="produto", indexes={@ORM\Index(name="FK__categoria", columns={"categoria"})})
+ * @ORM\Table(name="produto")
  * @ORM\Entity(repositoryClass="Nutrivida\LojaBundle\Entity\Repository\ProdutoRepository")
  * @UniqueEntity(
- *     fields={"nome", "categoria"},
- *     message="Este nome já está cadastrado para esta categoria"
+ *     fields={"nome"},
+ *     message="O nome deste produto já está cadastrado"
  * )
  */
 class Produto
@@ -95,14 +95,19 @@ class Produto
 
 
     /**
-     * @var \Categoria
+     * @var Collection
      *
-     * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="produtos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="categoria", referencedColumnName="id")
-     * })
+     * @ORM\ManyToMany(targetEntity="Categoria", inversedBy="produtos")
+     * @ORM\JoinTable(name="produto_categoria",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="produto", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="categoria", referencedColumnName="id")
+     *   }
+     * )
      */
-    private $categoria;
+    private $categorias;
     
     /**
      * @var int
@@ -141,6 +146,7 @@ class Produto
     function __construct()
     {
         $this->setImagens(new ArrayCollection());
+        $this->setCategorias(new ArrayCollection());
     }    
 
     /**
@@ -220,31 +226,7 @@ class Produto
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set categoria
-     *
-     * @param Categoria $categoria
-     * @return Produto
-     */
-    public function setCategoria(Categoria $categoria = null)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get categoria
-     *
-     * @return Categoria 
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-    
+    }    
     /**
      * Get imagens
      * 
@@ -366,6 +348,17 @@ class Produto
     {
         $this->tipoEmbalagem = $tipoEmbalagem;
     }
+    
+    public function getCategorias()
+    {
+        return $this->categorias;
+    }
+
+    public function setCategorias(Collection $categorias)
+    {
+        $this->categorias = $categorias;
+    }
+
 
 
 }
