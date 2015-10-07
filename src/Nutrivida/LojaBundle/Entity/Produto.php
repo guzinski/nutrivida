@@ -97,7 +97,7 @@ class Produto
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="Categoria", inversedBy="produtos")
+     * @ORM\ManyToMany(targetEntity="Categoria", inversedBy="produtos", fetch="EAGER")
      * @ORM\JoinTable(name="produto_categoria",
      *   joinColumns={
      *     @ORM\JoinColumn(name="produto", referencedColumnName="id")

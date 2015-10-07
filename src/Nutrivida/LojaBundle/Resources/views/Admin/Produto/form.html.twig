@@ -17,8 +17,8 @@
             jQuery('#loading').hide();
             //jQuery('#produto_descricao').wysihtml5({color: true,html:true});
             //jQuery('#produto_descricao').ckeditor();
-            jQuery('select').select2();
-            jQuery('.select2-container').removeClass("form-control").css("width", "100%")
+            //jQuery('select').select2();
+            //jQuery('.select2-container').removeClass("form-control").css("width", "100%")
 
             jQuery("#basicForm").validate({
                 rules: {
@@ -163,7 +163,7 @@
                         {{ form_row(form.comprimento) }}
                         {{ form_row(form.altura) }}
                         {{ form_row(form.tipoEmbalagem) }}
-                        {{ form_row(form.categoria) }}
+                        {{ form_row(form.categorias) }}
                         {{ form_row(form.destaqueCategoria) }}
                         {{ form_row(form.desconto) }}
                         {{ form_row(form.ativo) }}

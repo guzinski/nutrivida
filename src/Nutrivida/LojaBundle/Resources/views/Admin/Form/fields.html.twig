@@ -1,3 +1,15 @@
+{% block _produto_categorias_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div>
+        {% for child in form %}
+            {{ form_widget(child) }}
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock _produto_categorias_widget %}
+
 {% block _banner_ativo_widget %}
 {% spaceless %}
     {% if expanded %}

@@ -69,5 +69,19 @@ class ProdutoRepository extends EntityRepository
         
         return $query->getQuery()->getSingleScalarResult();
     }
+    
+    /* 
+     * @param type $idCategoria
+     * @return type
+     */
+    public function getProdutosDestaques()
+    {
+        $query = $this->createQueryBuilder("P")
+                    ->andWhere("P.destaqueCategoria = 1")
+                    ->andWhere("P.ativo = 1");
+        
+        return $query->getQuery()->getResult();
+    }
+
 
 }

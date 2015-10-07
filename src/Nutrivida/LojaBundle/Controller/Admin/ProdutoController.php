@@ -36,13 +36,17 @@ class ProdutoController extends Controller
         $produtos = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->findAll();
         $dados = array();
         foreach ($produtos as $produto) {
-            $linha = array();
-            
-            $linha[] = "<a href=\"".$this->generateUrl("_produto_form", array("id"=>$produto->getId())) ."\">". $produto->getNome() ."</a>";
-            $linha[] = $produto->getCategoria()->getNome();
-            $linha[] = $produto->getAtivo() ? "Sim" : "Não";
-            $linha[] = "<a href=\"javascript:excluirProduto(".$produto->getId() .");\"><i class=\"glyphicon glyphicon-trash\"></a>";
-            $dados[] = $linha;
+            $strCategorias = "";
+            foreach ($produto->getCategorias() as $categoria) {
+                $strCategorias .= $categoria->getNome().",";
+            }
+            $strCategorias = substr($strCategorias, 0, -1);
+            $dados[] = [
+                "<a href=\"".$this->generateUrl("_produto_form", array("id"=>$produto->getId())) ."\">". $produto->getNome() ."</a>",
+                $strCategorias,
+                $produto->getAtivo() ? "Sim" : "Não",
+                "<a href=\"javascript:excluirProduto(".$produto->getId() .");\"><i class=\"glyphicon glyphicon-trash\"></a>",
+            ];
         }
         $return['recordsTotal'] = count($produtos);
         $return['recordsFiltered'] = count($produtos);

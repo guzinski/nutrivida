@@ -26,11 +26,11 @@ class ProdutoTyoe extends AbstractType
                 $builder->add('largura', 'money', array("currency"=>"", "grouping"=>false, "label" => "Largura da Embalagem em cm"));
                 $builder->add('comprimento', 'money', array("currency"=>"", "grouping"=>false, "label" => "Comprimento da Embalagem em cm"));
                 $builder->add('altura', 'money', array("currency"=>"", "grouping"=>false, "label" => "Altura da Embalagem em cm"));
-                $builder->add('categoria', 'entity', array(
+                $builder->add('categorias', 'entity', array(
                         'class'         => 'NutrividaLojaBundle:Categoria',
-                        'empty_value'   => 'Selecione',
-                        'empty_data'    => null,
-                        'label'         => 'Categoria'
+                        "multiple"      => true,
+                        "expanded"      => true,
+                        'label'         => 'Categorias'
                 ));
                 $builder->add('destaqueCategoria', 'choice', array(
                     'choices' => array('1' => 'Sim', '0' => 'Não'),

@@ -16,10 +16,10 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $banners = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Banner")->findBy(array("ativo"=>"1"));
-        $categorias = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Categoria")->getProdutosDestaques();
+        $produtos = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->getProdutosDestaques();
         $descontos = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->getProdutosComDesconto();
         
-        return array("banners"=>$banners, "categorias"=>$categorias, "descontos"=>$descontos);
+        return array("banners"=>$banners, "produtos"=>$produtos, "descontos"=>$descontos);
     }
     
     /**

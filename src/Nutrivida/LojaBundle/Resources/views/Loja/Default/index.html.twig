@@ -26,19 +26,18 @@
         <div class="row featuredPostContainer globalPadding style2">
             <h3 class="section-title style2 text-center"><span>PRODUTOS DETAQUES</span></h3>
             <div id="productslider" class="owl-carousel owl-theme">
-                {% for categoria in categorias %}
-                    {% for produto in categoria.getProdutos %}
+                {% for produto in produtos %}
                     <div class="item">
                         <div class="product">
                             <div class="image">  
                                 <div class="quickview">
                                 </div>
-                                <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">
+                                <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">
                                     <img src="{% path produto.getImagens.get(0).media, 'produto' %}" alt="img" class="img-responsive">
                                 </a>
                             </div>
                             <div class="description">
-                                <h4><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategoria.getSlug, slug: produto.getSlug}) }}">SNACK TEE </a></h4>
+                                <h4><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">SNACK TEE </a></h4>
                                 <p>{{ produto.getNome }}</p>
                             </div>
                             <div class="price"> <span>R$ {{ produto.getValor|number_format(2, ',', '.') }}</span> </div>
@@ -51,7 +50,6 @@
                                 </a> </div>
                         </div>
                     </div>
-                    {% endfor %}
                 {% endfor %}
             </div>
             <!--/.productslider--> 
@@ -84,13 +82,13 @@
                             <div class="image">  
                                 <div class="quickview">
                                 </div>
-                                <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">
+                                <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategorias.get(0).getSlug, slug: desconto.getSlug}) }}">
                                     <img src="{% path desconto.getImagens.get(0).media, 'produto' %}" alt="img" class="img-responsive">
                                 </a>
                             </div>
                             <div class="description">
                                 <h4>
-                                    <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategoria.getSlug, slug: desconto.getSlug}) }}">Cranberry</a>
+                                    <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategorias.get(0).getSlug, slug: desconto.getSlug}) }}">Cranberry</a>
                                 </h4>
                                 <p>{{ desconto.getNome }} </p>
                             </div>
