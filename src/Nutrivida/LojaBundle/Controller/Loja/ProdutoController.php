@@ -21,10 +21,11 @@ class ProdutoController extends Controller
      */
     public function indexAction($slugCategoria, $slug)
     {
-        $produto = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->findOneBy(array("slug"=>$slug));
+        $produto    = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto")->findOneBy(array("slug"=>$slug));
+        $categoria  = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Categoria")->findOneBy(array('slug'=>$slugCategoria));
         if (null == $produto) {
             $this->createNotFoundException("Produto não encontrado");
         }
-        return array("produto"=>$produto);
+        return ['produto'=>$produto, 'categoria'=> $categoria];
     }
 }

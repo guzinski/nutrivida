@@ -17,8 +17,9 @@ class ProdutoRepository extends EntityRepository
         $query = $this->createQueryBuilder("P")
                     ->andWhere("P.ativo = 1");
         if ($idCategoria != null) {
-            $query->andWhere("P.categoria = :id");
-            $query->setParameter("id", $idCategoria);
+            $query->leftJoin("P.categorias", "C")
+                    ->andWhere($query->expr()->in("C.id", ":id"))
+                    ->setParameter("id", $idCategoria);
         }
         if ($destaque != null) {
             $query->andWhere("P.destaqueCategoria = :destaque");
@@ -59,8 +60,9 @@ class ProdutoRepository extends EntityRepository
         $query->select($query->expr()->count("P"))
                     ->andWhere("P.ativo = 1");
         if ($idCategoria != null) {
-            $query->andWhere("P.categoria = :id");
-            $query->setParameter("id", $idCategoria);
+            $query->leftJoin("P.categorias", "C")
+                    ->andWhere($query->expr()->in("C.id", ":id"))
+                    ->setParameter("id", $idCategoria);
         }
         if ($destaque != null) {
             $query->andWhere("P.destaqueCategoria = :destaque");

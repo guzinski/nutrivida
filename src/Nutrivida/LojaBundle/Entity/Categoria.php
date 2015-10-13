@@ -45,7 +45,7 @@ class Categoria
     /**
      *
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Produto", mappedBy="categorias") 
+     * @ORM\ManyToMany(targetEntity="Produto", mappedBy="categorias") 
      */
     private $produtos;
 

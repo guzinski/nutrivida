@@ -130,12 +130,6 @@ class Produto
      */
     private $desconto = 0;
     
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="produtos")
-     */
-    private $pedidos;
 
     /**
      * @var Collection
@@ -273,19 +267,9 @@ class Produto
         return $this->desconto;
     }
 
-    function getPedidos()
-    {
-        return $this->pedidos;
-    }
-
     function setDesconto($desconto)
     {
         $this->desconto = $desconto;
-    }
-
-    function setPedidos(Collection $pedidos)
-    {
-        $this->pedidos = $pedidos;
     }
 
     function getSlug()

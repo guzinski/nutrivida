@@ -2,80 +2,99 @@
 {% block title %}Nutrivida Tramandaí RS{% endblock %}
 
 {% block head %}
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/responsiveslides.min.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/easyResponsiveTabs.js') }}"></script>
-    <script src="{{ asset('bundles/nutrividaloja/loja/js/jquery.wmuSlider.js') }}"></script>
-    
-        <script>
-            jQuery(document).ready(function () {
-                jQuery("#slider").responsiveSlides({
-                    auto: true,
-                    nav: true,
-                    speed: 500,
-                    namespace: "callbacks",
-                    pager: true,
-                });
-                jQuery('#horizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion           
-                    width: 'auto', //auto or any width like 600px
-                    fit: true   // 100% fit in a container
-                });
-                jQuery('.example1').wmuSlider();
-            });
-
 </script>
 
 {% endblock %}
 
 
 {% block content %}
-        <ul class="breadcrumbs">
-            <div class="container">
-                <li class="home">
-                    <a href="{{ path('_loja_index') }}" title="Home"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
-                    <span>&gt;</span>&nbsp;
-                </li>
-                <li class="home">
-                    Produtos&nbsp; 
-                    <span>&gt;</span>
-                </li>
-                <li class="home">
-                    <span class="red">&nbsp;{{ categoria.getNome }}&nbsp;</span>
-                </li>
-            </div>
-        </ul>
-        {#
-        <div class="product_banner">
-            <div class="container">
-                <div class="wmuSlider example1">
-                    <div class="wmuSliderWrapper">
-                        {% for destaque in destaques %}
-                        <article style="position: relative; width: 100%; opacity: 1;"> 
-                            <div class="banner-wrap">
-                                <div class="banner_left">
-                                    <img style="width: 520px; height: 660px " src="{% path destaque.getImagens.get(0).media, 'produto_banner' %}" class="img-responsive" alt=""/>
-                                </div>
-                                <div class="banner_right">
-                                    <h1>><a href="{{ path('_loja_produto', {slugCategoria: destaque.getCategoria.getSlug, slug: destaque.getSlug}) }}">{{ destaque.getNome }}</a></h1>
-                                    <p class="p1">R$ {{ destaque.getValor|number_format(2, ',', '.') }}</p>
-                                    <p class="p2">{{ destaque.getDescricao }}</p>
-                                    <a href="javascript:adicionarCarrinho({{ destaque.getId }})" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""/></a>
-                                </div>
-                                <div class='clearfix'></div>
-                            </div>
-                        </article>
-                        {% endfor %}
-                    </div>
-                    <a class="wmuSliderPrev">Anterior</a><a class="wmuSliderNext">Próximo</a>
-                    <ul class="wmuSliderPagination">
-                        {% for destaque in destaques %}
-                            <li><a href="#" class="">{{ loop.index }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
+    <div class="container main-container headerOffset">
+        <div class="row">
+            <div class="breadcrumbDiv col-lg-12">
+                <ul class="breadcrumb">
+                    <li> <a href="{{ path('_loja_index') }}">Home</a> </li>
+                    <li class="active">CATEGORIAS </li>
+                </ul>
             </div>
         </div>
-        #}
+
+
+        <div class="row"> 
+
+            <!--left column-->
+
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="panel-group" id="accordionNo"> 
+                    <!--Category-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"> <a data-toggle="collapse"  href="#collapseCategory" class="collapseWill"> <span class="pull-left"> <i class="fa fa-caret-right"></i></span> CATEGORIAS</a> </h4>
+                        </div>
+                        <div id="collapseCategory" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked tree">
+                                    {% for cat in categorias %}
+                                        <li> <a href="{{ path('_loja_categoria', {slug: cat.getSlug}) }}"> {{ cat.nome }} </a> </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="w100 clearfix category-top">
+                    <h2> {{ categoria.nome }} </h2>
+                </div>
+
+                <div class="row  categoryProduct xsResponse clearfix">
+                    {% for prod in produtos %}
+                        <div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">
+                            <div class="product">
+                                <div class="image">  
+                                    <div class="quickview">
+                                    </div><a href="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}"><img src="{% path prod.getImagens.get(0).media, 'produto' %}" alt="img" class="img-responsive"></a>
+                                </div>
+                                <div class="description">
+                                    <h4><a href="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}">{{ prod.nome }}</a></h4>
+                                    <div class="grid-description">
+                                        <p>{{ prod.descricao|striptags }} </p>
+                                    </div>
+                                    <div class="list-description">
+                                        <p> Sed sed rutrum purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus lacus, iaculis in ante vitae, viverra hendrerit ante. Aliquam vel fermentum elit. Morbi rhoncus, neque in vulputate facilisis, leo tortor sollicitudin odio, quis pellentesque lorem nisi quis enim. In dolor mi, hendrerit at blandit vulputate, congue a purus. Sed eget turpis sit amet orci euismod accumsan. Praesent sit amet placerat elit. </p>
+                                    </div>
+                                    <div class="price"> <span>R$ {{ prod.getValor|number_format(2, ',', '.') }}</span> </div>
+                                    <div class="action-control"> <a class="btn btn-primary"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Adicionar </span> </a> </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                
+                <div class="w100 categoryFooter">
+                    <div class="pagination pull-left no-margin-top">
+                        <ul class="pagination no-margin-top">
+                            <li> <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page-1), order: order}) }}">«</a></li>
+                            {% for i in 1..totalPages %}
+                                <li {% if loop.index==page %} class="active" {% endif %}><a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: loop.index, order: order}) }}">{{ loop.index }}</a></li>
+                            {% endfor %}
+                            <li> <a href="{{ path('_loja_categoria', {slug: categoria.getSlug, page: (page+1), order: order}) }}">»</a></li>
+                        </ul>
+                    </div>
+                    <div class="pull-right pull-right col-sm-4 col-xs-12 no-padding text-right text-left-xs">
+                        <!-- <p>Showing 1–450 of 12 results</p>-->
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+{#                
         <div class="products_top">
             <div class="container">
                 <div class="col-md-9">
@@ -118,12 +137,11 @@
                             {% for prod in produtos %}
                                 <li {% if loop.index%3==0 %} class="grid-4_last" {% endif %}>
                                     <div class="view view-first">
-                                        <a style="display: block;" href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
+                                        <a style="display: block;" href="{{ path('_loja_produto', {slugCategoria: prod.getCategorias().get(0).getSlug, slug: prod.getSlug}) }}">
                                             <img style="display: block;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt=""/>
                                         </a>
-                                        {# <div class="product_mask"> </div> #}
                                         <div class="tab_desc1">
-                                            <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.getNome }}</a></h3>
+                                            <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategorias().get(0).getSlug, slug: prod.getSlug}) }}">{{ prod.getNome }}</a></h3>
                                             <p>R$ {{ prod.getValor|number_format(2, ',', '.') }}</p>
                                             <a href="javascript:adicionarCarrinho({{ prod.getId }})" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
                                         </div>
@@ -175,7 +193,7 @@
                     {% for cat in categorias %}
                     <select class="dropdown" tabindex="50" data-settings='{"wrapperClass":"metro"}'>
                         <option value="0">{{ cat.getNome }}</option>
-                        {% for prod in cat.getProdutos %}
+                        {% for prod in cat.getProdutos() %}
                         <option value="{{ prod.getId }}">{{ prod.getNome }}</option>
                         {% endfor %}
                     </select>
@@ -190,5 +208,5 @@
         <div class="container">
             <p>Aceitamos<img src="{{ asset('bundles/nutrividaloja/loja/images/paypal.png') }}" class="img-responsive" alt="" align="middle" /></p>
         </div>
-    </div>
+    </div>#}
 {% endblock %}
