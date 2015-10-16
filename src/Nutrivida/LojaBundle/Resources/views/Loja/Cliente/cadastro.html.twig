@@ -3,7 +3,7 @@
 {% block title %}Nutrivida Tramandaí RS{% endblock %}
 
 {% block head %}
-    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.validate.min.js') }}"></script>
+{#    <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/messages_ptbr.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskedinput.min.js') }}"></script>
     <script src="{{ asset('bundles/nutrividaloja/admin/js/validate/additional-methods.js') }}"></script>
@@ -17,55 +17,51 @@
             });
         });
     </script>
-
+#}
 {% endblock %}
 
 
 {% block content %}
-        <ul class="breadcrumbs">
-            <div class="container">
-                <li class="home">
-                    <a href="{{ path('_loja_index') }}" title="Go to Home Page"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
-                    <span>&gt;</span>&nbsp;
-                </li>
-                <li class="home">
-                    NutriVida&nbsp; 
-                    <span>&gt;</span>
-                </li>
-                <li class="home">
-                    <span class="red"> &nbsp;Cliente&nbsp;</span>
-                </li>
+    <div class="container main-container headerOffset">
+        <div class="row">
+            <div class="breadcrumbDiv col-lg-12">
+                <ul class="breadcrumb">
+                    <li> <a href="{{ path('_loja_index') }}">Home</a> </li>
+                    <li class="active"> Cliente </li>
+                </ul>
             </div>
-        </ul>
-        <div class="contact">
-            <div class="container">
-                <div class="register-but">
-                    <form method="POST" id="form-cadastro" action=""> 
-                        <div class="register-top-grid">
-                            <h3>INFORMAÇÕES PESSOAIS</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-7">
+                <h1 class="section-title-inner"><span><i class="fa fa-user"></i> Cadastro</span></h1>
+                <div class="row userInfo">
+                    <div class="col-xs-12 col-sm-6">
+                        <h2 class="block-title-2"> NOVO CLIENTE </h2>
+                        <form method="POST" id="form-cadastro" action="{{ path('_loja_cadastro_cliente') }}"> 
                             {{ form_row(form.nome) }}
                             {{ form_row(form.telefone) }}
                             {{ form_row(form.email) }}
-                            <div class="clearfix"> </div>
-                            <a class="news-letter" href="#">
-                                <label class="checkbox"><input type="checkbox" name="news" checked=""><i> </i>Receber ofertas de produtos Nutrivida</label>
-                            </a>
-                        </div>
-                        <div class="register-bottom-grid">
                             {{ form_row(form.senha.first) }}
                             {{ form_row(form.senha.second) }}
-                            <div class="clearfix"> </div>
-                            <input type="submit" value="salvar">
-                        </div>
-                        <div class="clearfix"> </div>
-                        {{ form_row(form._token) }}
-                        {{ form_errors(form) }}
+                            <div class="form-group ">
+                                <p class=" clearfix">
+                                    <input type="checkbox" id="news" name="news" value="1">
+                                    <label for="news" >Receber ofertas de produtos Nutrivida!</label>
+                                </p>
+                            </div>
 
-
-                    </form>
-                    <div class="clearfix"> </div>
+                            <button class="btn   btn-primary" type="submit"><i class="fa fa-user"></i> Cadastrar</button>
+                            {{ form_row(form._token) }}
+                            {{ form_errors(form) }}
+                        </form>
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-5"> </div>
         </div>
+        <div style="clear:both"></div>
+    </div>
+    <div class="gap"> </div>
+                    
 
 {% endblock %}

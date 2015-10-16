@@ -76,9 +76,7 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane active" id="details">
-                                <p>A bebida de castanhas a Tal da Castanha é fonte de proteínas vegetais de alta qualidade, rica em vitaminas e minerais. Por ser zero lactose, glúten e soja, é uma excelente alternativa para intolerantes e também para veganos, vegetarianos, pessoas que procuram diminuir o consumo de produtos de origem animal ou simplesmente para quem ama castanhas.
-                                Sem adição de açúcares, conservadores, corantes ou aromatizantes.</p>
-                                <P>Ingredientes: Água e castanhas de caju.</p>
+                                {{ produto.descricao }}
                             </div>
                         </div> <!-- /.tab content -->
 
@@ -96,77 +94,17 @@
                 <h1> PRODUTOS RECOMENDADOS </h1>
 
                 <div id="SimilarProductSlider">
+                    {% for prod in categoria.getProdutos if prod.id != produto.id  %}
                     <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
+                        <div class="product"> <a class="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}" > <img src="{% path prod.getImagens.get(0).media, 'produto' %}"  alt="img"> </a>
                             <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90</span> </div>
+                                <h4><a href="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}">{{ prod.nome }}</a></h4>
+                                <div class="price"> <span>R${{ prod.valor|number_format(2, ',', '.') }}</span> </div>
                             </div>
                         </div>
                     </div><!--/.item-->
+                    {% endfor %}
 
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90</span> </div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg" alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90</span></div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90</span></div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90</span> </div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee</a></h4>
-                                <div class="price"> <span>R$8,90 </span> </div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee </a></h4>
-                                <div class="price"> <span>R$8,90</span> </div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
-
-                    <div class="item">
-                        <div class="product"> <a class="product-image" > <img src="images/product/3.jpg"  alt="img"> </a>
-                            <div class="description">
-                                <h4><a href="san-remo-spaghetti">Snack Tee </a></h4>
-                                <div class="price"> <span>R$8,90</span> </div>
-                            </div>
-                        </div>
-                    </div><!--/.item-->
                 </div><!--/.SimilarProductSlider-->
             </div>  <!--/.recommended--> 
 

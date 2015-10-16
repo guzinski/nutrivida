@@ -71,11 +71,14 @@ class ClienteController extends Controller
      * @Template()
      * @return array
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->getRequest();
         $session = $request->getSession();
         $errorMsg = "";
+        $form = $this->createForm(new ClienteType(),  new Cliente());
+
+        $form->handleRequest($request);
+
         // get the login error if there is one
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
@@ -88,10 +91,11 @@ class ClienteController extends Controller
             $errorMsg = $this->get("translator")->trans($error->getMessage());
         }
 
-        return array(
-            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-            'error'         => $errorMsg,
-        );
+        return [
+            'last_username' =>  $session->get(SecurityContext::LAST_USERNAME),
+            'error'         =>  $errorMsg,
+            'form'          =>  $form->createView()
+        ];
     }
     
     
