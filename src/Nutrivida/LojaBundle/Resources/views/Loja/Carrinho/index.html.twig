@@ -1,8 +1,6 @@
 {% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
 {% block title %}Nutrivida Tramandaí RS{% endblock %}
-
 {% block head %}
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <script src="{{ asset('bundles/nutrividaloja/admin/js/jquery.maskedinput.min.js') }}"></script>
 <script>
     jQuery(document).ready(function(){
@@ -21,7 +19,6 @@
                     }, 500);
                 }
         });
-        
     });
 
     function setFrete(result) {
@@ -32,7 +29,10 @@
         for (var key in result) {
             data = result[key];
             frete = data.CalcPrecoPrazoResult.Servicos.cServico;
-            if (frete.Erro != "0") {
+            if ( frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }}" ) {
+                break;
+            }
+{#            if (frete.Erro != "0") {
                 html += "<tr>";
                 if ( frete.Codigo == "{{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }}" ) {
                     html += "<td>";
@@ -61,30 +61,34 @@
                 html += "</td>";
                 html += "</tr>";
             }            
-        }
-        table.html(html);
+#}        }
+        //table.html(html);
         
-        jQuery('input[name=opcaoFrete]').change(function() {
+        jQuery('#frete').text("R$ "+frete.Valor.toString());
+        
+        var total = parseFloat(jQuery('#totalProdutos').val()) + moeda2float(frete.Valor.toString());
+        
+        jQuery('#total-price').text(float2moeda(total));
+        
+{#        jQuery('input[name=opcaoFrete]').change(function() {
             var res = this.value.split("|");
             var valor = moeda2float(res[1]);
             valor = valor + parseFloat(jQuery("#valorTotalPedido").val());
             jQuery("#labelValorTotalPedido").text("Total: R$ "+float2moeda(valor));
         });
-    }
+#}    }
 
     function alterarQuantidade(id, qtd) {
         jQuery.get("{{ path("_loja_carrinho_alterar_quantidade") }}/"+id+"/"+qtd, function(msg) {
             location.href = "";
         });
     }
-    function voltarParaProdutos() {
-        location.href = "{{ path('_loja_index') }}";
-    }
+
     function  finalizarPedido() {
-        var frete = jQuery('input[name="opcaoFrete"]:checked').val();
+        var frete = {{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }};
         var cep = jQuery("#cep_frete").val();
-        if (frete == undefined) {
-            bootbox.alert("Você precisa selecionar o tipo de frete");
+        if (cep == "") {
+            bootbox.alert("Calcule o frete para continuar");
             return ;
         }
         bootbox.confirm("Tem certea de que deseja finalizar o pedido?", function(result) {
@@ -134,32 +138,150 @@
         }
         return "R$ "+ret;
     }
-
-
     
-    
+    function removerProduto(id) {
+        bootbox.confirm("Tem certea de que deseja remover este produto?", function(result) {
+            if (result) {
+                jQuery.get("{{ path("_loja_carrinho_remover") }}/"+id, function() {
+                    bootbox.alert('Produto removido com sucesso', function(){
+                        location.href = '';
+                    })
+                });
+            }
+        });
+    }
 </script>
 {% endblock %}
 
 
 {% block content %}
-        <ul class="breadcrumbs">
-            <div class="container">
-                <li class="home">
-                    <a href="{{ path('_loja_index') }}" title="Home"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
-                    <span>&gt;</span>&nbsp;
-                </li>
-                <li class="home">
-                    Produtos&nbsp; 
-                    <span>&gt;</span>
-                </li>
-                <li class="home">
-                    <span class="red">&nbsp;Carrinho&nbsp;</span>
-                </li>
+    
+    <div class="container main-container headerOffset">
+        <div class="row">
+            <div class="breadcrumbDiv col-lg-12">
+                <ul class="breadcrumb">
+                    <li> <a href="{{ path('_loja_index') }}">Home</a> </li>
+                    <li class="active">Carrinho </li>
+                </ul>
             </div>
-        </ul>
+        </div><!--/.row-->
+
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-7">
+                <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-shopping-cart"></i> Carrinho </span></h1>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+                <h4 class="caps"><a href="{{ path('_loja_index') }}"><i class="fa fa-chevron-left"></i> Voltar a loja </a></h4>
+            </div>
+        </div><!--/.row-->
+
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-7">
+                <div class="row userInfo">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="cartContent w100">
+                            <table class="cartTable table-responsive" style="width:100%">
+                                <tbody>
+
+                                    <tr class="CartProduct cartTableHeader">
+                                        <td style="width:15%"> Produto </td>
+                                        <td style="width:40%">Detalhe</td>
+                                        <td style="width:10%" class="delete">&nbsp;</td>
+                                        <td style="width:10%">QNT</td>
+                                        <td style="width:15%">Total</td>
+                                    </tr>
+                                    
+                                {% set valor = 0 %}
+                                {% for produto in produtos %}
+                                {% set valor = valor+carrinho[produto.getId]*produto.getValor %}
+                                    <tr class="CartProduct">
+                                        <td class="CartProductThumb">
+                                            <div> 
+                                                <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">
+                                                    <img src="{% path produto.getImagens.get(0).media, 'produto_banner' %}" alt="img">
+                                                </a> 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="CartDescription">
+                                                <h4> <a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">{{ produto.nome }}</a> </h4>
+                                                <div class="price"><span>R$ {{ produto.valor|number_format(2, ',', '.') }}</span></div>
+                                            </div>
+                                        </td>
+                                        <td class="delete">
+                                            <a href="javascript:removerProduto({{ produto.getId }})" title="Delete"> <i class="glyphicon glyphicon-trash fa-2x"></i></a>
+                                        </td>
+                                        <td>
+                                            <input onchange="alterarQuantidade({{ produto.getId }}, jQuery(this).val())" class="quanitySniper" type="text" value="{{ carrinho[produto.getId] }}" name="quanitySniper">
+                                        </td>
+                                        <td class="price">R$ {{ (produto.valor*carrinho[produto.id])|number_format(2, ',', '.') }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--cartContent-->
+
+                        <div class="cartFooter w100">
+                            <div class="box-footer">
+                                <div class="pull-right">
+                                    <button type="submit" onclick="location.href=''" class="btn btn-default"> <i class="fa fa-undo"></i> &nbsp; Atualizar </button>
+                                </div>
+                            </div>
+                        </div> <!--/ cartFooter --> 
+
+                    </div>
+                </div>
+                <!--/row end--> 
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+                <div class="contentBox" >
+                    <div class="w100 costDetails">
+                        <div class="table-block" id="order-detail-content"> <a class="btn btn-primary btn-lg btn-block " title="checkout" href="javascript:finalizarPedido()" style="margin-bottom:20px"> Finalizar Pedido &nbsp; <i class="fa fa-arrow-right"></i> </a>
+                            <div class="w100 cartMiniTable">
+                                <table id="cart-summary" class="std table">
+                                    <tbody>
+                                        <tr >
+                                            <td>Total dos produtos</td>
+                                            <td class="price" >R$ {{ valor|number_format(2, ',', '.') }}</td>
+                                            <input type="hidden" id="totalProdutos" value="{{ valor }}" />
+                                        </tr>
+                                        <tr >
+                                            <td>Frete</td>
+                                            <td class="price" id="frete">R$ 0,00</td>
+                                        </tr>
+                                        <tr >
+                                            <td > Total </td>
+                                            <td class=" site-color" id="total-price">R$ {{ valor|number_format(2, ',', '.') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" >
+                                                <div class="input-append couponForm">
+                                                    <input class="col-lg-12" id="cep_frete" type="text"  placeholder="Calcular Frete" >
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End popular --> 
+            </div>
+            <!--/rightSidebar--> 
+
+        </div><!--/row-->
+
+        <div style="clear:both"></div>
+    </div><!-- /.main-container -->
+
+    <div class="gap"> </div>
+
                     
-<div class="cart">
+{#<div class="cart">
     <div class="container">
         <div class="cart_top">
             <div class="col-md-12">
@@ -231,6 +353,6 @@
         </div>
 	</div>
 </div>
-
+#}
         
 {% endblock %}

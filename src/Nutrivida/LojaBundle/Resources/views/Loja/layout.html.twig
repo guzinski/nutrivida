@@ -134,7 +134,17 @@
         <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/bootstrap.touchspin.js') }}"></script>
         <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/home.js') }}"></script>
         <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/script.js') }}"></script>
+        <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/bootbox.min.js') }}"></script>
 
+        <script type="text/javascript">            
+            function adicionarCarrinho(idProduto) {
+                jQuery.get("{{ path("_loja_carrinho_adicionar") }}/"+idProduto, function(msg) {
+                    bootbox.alert(msg, function(){
+                        location.href = "";
+                    });
+                });
+            }
+        </script>
         
         {% block head %}{% endblock %}
     </head>

@@ -65,7 +65,7 @@
                                         <p> Sed sed rutrum purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus lacus, iaculis in ante vitae, viverra hendrerit ante. Aliquam vel fermentum elit. Morbi rhoncus, neque in vulputate facilisis, leo tortor sollicitudin odio, quis pellentesque lorem nisi quis enim. In dolor mi, hendrerit at blandit vulputate, congue a purus. Sed eget turpis sit amet orci euismod accumsan. Praesent sit amet placerat elit. </p>
                                     </div>
                                     <div class="price"> <span>R$ {{ prod.getValor|number_format(2, ',', '.') }}</span> </div>
-                                    <div class="action-control"> <a class="btn btn-primary"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Adicionar </span> </a> </div>
+                                    <div class="action-control"> <a class="btn btn-primary" href="javascrip:adicionarCarrinho({{ prod.id }})"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Adicionar </span> </a> </div>
                                 </div>
                             </div>
 

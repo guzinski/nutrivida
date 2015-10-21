@@ -34,19 +34,27 @@ class CarrinhoController extends Controller
     }
     
     /**
-     * @Route("/adicionar/{idProduto}", name="_loja_carrinho_adicionar")
+     * @Route("/adicionar/{idProduto}/{quantidade}", name="_loja_carrinho_adicionar")
      * @param type $idProduto
      * @return array
      */
-    public function adicionarAction($idProduto = null)
+    public function adicionarAction($idProduto = null, $quantidade = null)
     {
         $rep = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto");
         $carrinho = $this->getCarrinho();
         if ($rep->findOneById($idProduto) && $idProduto) {
             if ($this->verficicaSeProdutoExisteNoCarrinho($idProduto, $carrinho)) {
-                $carrinho[$idProduto]++;
+                if (!empty($quantidade)) {
+                    $carrinho[$idProduto] += $quantidade;
+                } else {
+                    $carrinho[$idProduto]++;
+                }
             } else {
-                $carrinho[$idProduto] = 1;
+                if (!empty($quantidade)) {
+                    $carrinho[$idProduto] = $quantidade;
+                } else {
+                    $carrinho[$idProduto] = 1;
+                }
             }
             $msg = "Produto adicionado com sucesso";
         } else {
@@ -230,6 +238,7 @@ class CarrinhoController extends Controller
         $rep        = $this->getDoctrine()->getRepository("NutrividaLojaBundle:Produto");
         $session    = $this->get("session");
         $carrinho   = $session->get('carrinho', array());
+        
         return $rep->findById(array_keys($carrinho));
     }
     
@@ -269,6 +278,25 @@ class CarrinhoController extends Controller
         return $this->render(
             'NutrividaLojaBundle::Loja\\carrinhoTop.html.twig',
             array('totalQtd' => $totalQtd, "valorTotal" => $valor)
+        );
+    }
+    
+    /**
+     * 
+     * @return Response
+     */
+    public function carrinhoValorAction()
+    {
+        $carrinho = $this->getCarrinho();
+        $produtos = $this->getProdutosCarrinho();
+        $valor = 0;
+        foreach ($produtos as $produto) {
+            $valor += $produto->getValor()*$carrinho[$produto->getId()];
+        }
+        
+        return $this->render(
+            'NutrividaLojaBundle::Loja\\carrinhoValor.html.twig',
+            ['valor' => $valor]
         );
     }
     

@@ -1,6 +1,21 @@
 {% extends "NutrividaLojaBundle:Loja:layout.html.twig" %}
 {% block title %}Nutrivida Tramandaí RS{% endblock %}
 {% block head %}
+    
+    <script type="text/javascript">            
+        function adicionarCarrinhoQuantidade() {
+            if (jQuery("#quantidadeProduto").val()=="") {
+                bootbox.alert("Selecione a quantidade");
+            }
+            jQuery.get("{{ path("_loja_carrinho_adicionar", {idProduto: produto.id}) }}/"+jQuery("#quantidadeProduto").val(), function(msg) {
+                bootbox.alert(msg, function(){
+                    location.href = "";
+                });
+                
+            });
+        }
+    </script>
+
 {% endblock %}
 
 
@@ -42,23 +57,25 @@
 
                     <div class="productFilter productFilterLook2">
                         <div class="filterBox">
-                            <select>
-                                <option value="strawberries" selected>Quantidade</option>
-                                <option value="mango">1</option>
-                                <option value="bananas">2</option>
-                                <option value="watermelon">3</option>
-                                <option value="grapes">4</option>
-                                <option value="oranges">5</option>
-                                <option value="pineapple">6</option>
-                                <option value="peaches">7</option>
-                                <option value="cherries">8</option>
+                            <select id="quantidadeProduto" name="quantidadeProduto">
+                                <option value="" selected>Quantidade</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="cart-actions">
                         <div class="addto">
-                            <button onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Adicionar ao Carrinho" type="button">adicionar carrinho</button>
+                            <button onclick="javascript:adicionarCarrinhoQuantidade();" class="button btn-cart cart first" title="Adicionar ao Carrinho" type="button">adicionar carrinho</button>
                             <button onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Finalizar Pedido" type="button">finalizar pedido</button>
                         </div>
 
