@@ -54,9 +54,9 @@ class Pedido
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
-    private $tipoFrete = 0;
+    private $tipoFrete = "";
 
 
     /**

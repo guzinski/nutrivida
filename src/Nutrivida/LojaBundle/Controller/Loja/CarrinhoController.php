@@ -2,11 +2,14 @@
 
 namespace Nutrivida\LojaBundle\Controller\Loja;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Nutrivida\LojaBundle\Entity\Pedido;
+use Nutrivida\LojaBundle\Entity\ProdutoPedido;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SoapClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -108,24 +111,42 @@ class CarrinhoController extends Controller
         $result["ok"] = 0;
         $result["user"] = 0;
         if ($user) {
-            $arrayFrete = explode("|", $request->get("frete"));
-            $tipoFrete = $arrayFrete[0];
-            $resultFrete = $this->calculaPreçoFrete($request->get("cep"), $tipoFrete);
+            
+//            $arrayFrete = explode("|", $request->get("frete"));
+//            
+//            $tipoFrete = $arrayFrete[0];
+            
+            $resultFrete = $this->calculaPreçoFrete($request->get("cep"), self::sedex);            
             $valorFrete = str_replace(",", ".", str_replace(".", "", $resultFrete->CalcPrecoPrazoResult->Servicos->cServico->Valor));
-            $result["user"] = 1;
+            
             $em = $this->getDoctrine()->getManager();
+            
             $produtos = $this->getProdutosCarrinho();
-            $pedido = new \Nutrivida\LojaBundle\Entity\Pedido();
+            $carrinho = $this->getCarrinho();
+            
+            $pedido = new Pedido();
             $pedido->setCliente($em->find("NutrividaLojaBundle:Cliente", $user->getId()));
-            $pedido->setTipoFrete($tipoFrete);
+            //$pedido->setTipoFrete($tipoFrete);
+            $pedido->setTipoFrete(self::sedex);
+            
             $pedido->setValorFrete($valorFrete);
-            foreach ($produtos as $produto) {
-                $pedido->getProdutos()->add($produto);
-            }
+            
             $em->persist($pedido);
+            
+            foreach ($produtos as $produto) {
+                $produtoPedido = new ProdutoPedido();
+                $produtoPedido->setPedido($pedido);
+                $produtoPedido->setQuantidade($carrinho[$produto->getId()]);
+                $produtoPedido->setProduto($produto);
+                $produtoPedido->setValorUnitario($produto->getValor());
+                
+                $em->persist($produtoPedido);
+            }
+            
             $em->flush();
             $this->limpaCarrinho();
-            $result["ok"] = 1;
+            
+            $result = ["user"=>1, "ok"=>1];
         }
         return new Response(json_encode($result));
     }
@@ -183,7 +204,7 @@ class CarrinhoController extends Controller
             $alturaTotal = 105;
         }
         
-        $soap = new \SoapClient("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl");
+        $soap = new SoapClient("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl");
         $parametros = array(
             "nCdEmpresa" => "",
             "nCdEmpresa" => "",

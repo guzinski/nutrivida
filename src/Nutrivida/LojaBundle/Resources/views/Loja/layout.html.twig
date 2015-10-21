@@ -144,6 +144,19 @@
                     });
                 });
             }
+            
+            function assinarNews() {
+                var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+                var email = jQuery('#emailNews').val();
+                
+                if (!filter.test(email)) {
+                    bootbox.alert("Insira uma e-mail válido");
+                } else {
+                    jQuery.post("{{ path('_loja_news') }}", {email: email}, function(msg) {
+                        bootbox.alert(msg);
+                    });
+                }
+            }
         </script>
         
         {% block head %}{% endblock %}
