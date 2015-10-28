@@ -6,20 +6,23 @@
     jQuery(document).ready(function(){
         jQuery("#cep_frete").mask(
             "99999-999",
-            {completed:function(){
-                var url = "{{ path("_loja_carrinho_calcula_frete") }}/"+this.val();
-                jQuery.post(url, {}, setFrete, "json")
-            }}
+            {completed:calculaFrete}
         ).bind({
                 paste : function(){
-                    setTimeout(function () {
-                        var cep = jQuery("#cep_frete").val();
-                        var url = "{{ path("_loja_carrinho_calcula_frete") }}/"+cep;
-                        jQuery.post(url, {}, setFrete, "json")
-                    }, 500);
+                    setTimeout(calculaFrete, 500);
                 }
         });
+        if (jQuery("#cep_frete").val()!="") {
+            calculaFrete()
+        }
     });
+    
+    function calculaFrete() {
+        var cep = jQuery("#cep_frete").val();
+        var url = "{{ path("_loja_carrinho_calcula_frete") }}/"+cep;
+        jQuery.post(url, {}, setFrete, "json")
+    }
+    
 
     function setFrete(result) {
         var html = "";
@@ -86,14 +89,15 @@
 
     function  finalizarPedido() {
         var frete = {{ constant('Nutrivida\\LojaBundle\\Controller\\Loja\\CarrinhoController::sedex')  }};
-        var cep = jQuery("#cep_frete").val();
-        if (cep == "") {
+        var cep     = jQuery("#cep_frete").val();
+        var retirar = jQuery("#retirar").is(":checked");
+        if (cep == "" && !retirar) {
             bootbox.alert("Calcule o frete para continuar");
             return ;
         }
         bootbox.confirm("Tem certea de que deseja finalizar o pedido?", function(result) {
             if (result) {
-                jQuery.get("{{ path("_loja_carrinho_finalizar") }}", {frete: frete, cep: cep}, function(data) {
+                jQuery.get("{{ path("_loja_carrinho_finalizar") }}", {frete: frete, cep: cep, retirar: retirar}, function(data) {
                     if (data.user == 0) {
                         location.href = "{{ path('_login_cliente') }}";
                     } 
@@ -259,7 +263,14 @@
                                         <tr>
                                             <td colspan="2" >
                                                 <div class="input-append couponForm">
-                                                    <input class="col-lg-12" id="cep_frete" type="text"  placeholder="Calcular Frete" >
+                                                    <input class="col-lg-12" id="cep_frete" type="text" value="{{ cep }}" placeholder="Calcular Frete" >
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" >
+                                                <div class="input-append couponForm">
+                                                    <input id="retirar" name="retirar" type="checkbox"> Retirar Na loja
                                                 </div>
                                             </td>
                                         </tr>

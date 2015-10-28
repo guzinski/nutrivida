@@ -6,6 +6,7 @@
         function adicionarCarrinhoQuantidade() {
             if (jQuery("#quantidadeProduto").val()=="") {
                 bootbox.alert("Selecione a quantidade");
+                return;
             }
             jQuery.get("{{ path("_loja_carrinho_adicionar", {idProduto: produto.id}) }}/"+jQuery("#quantidadeProduto").val(), function(msg) {
                 bootbox.alert(msg, function(){
@@ -76,7 +77,7 @@
                     <div class="cart-actions">
                         <div class="addto">
                             <button onclick="javascript:adicionarCarrinhoQuantidade();" class="button btn-cart cart first" title="Adicionar ao Carrinho" type="button">adicionar carrinho</button>
-                            <button onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Finalizar Pedido" type="button">finalizar pedido</button>
+                            <button onclick="location.href = '{{ path('_loja_carrinho') }}'" class="button btn-cart cart first" title="Finalizar Pedido" type="button">finalizar pedido</button>
                         </div>
 
                         <div style="clear:both"></div>

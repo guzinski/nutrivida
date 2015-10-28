@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 
 /**
@@ -59,6 +60,13 @@ class ClienteController extends Controller
         if ($form->isValid()) {
             $em->persist($cliente);
             $em->flush();
+            
+            if (!$user) {
+                $token = new UsernamePasswordToken($cliente, null, 'loja', $cliente->getRoles());
+                $this->get('security.context')->setToken($token);
+                $this->get('session')->set('_security_loja', serialize($token));
+            }
+
             return $this->redirectToRoute("_loja_carrinho");
         }
         

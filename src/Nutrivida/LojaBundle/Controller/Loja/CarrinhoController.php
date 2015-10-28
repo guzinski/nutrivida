@@ -30,10 +30,11 @@ class CarrinhoController extends Controller
      */
     public function indexAction()
     {
-        return array(
+        return [
                     "carrinho"=>$this->getCarrinho(), 
-                    "produtos"=>$this->getProdutosCarrinho()
-                );
+                    "produtos"=>$this->getProdutosCarrinho(),
+                    "cep"=>$this->get("session")->get("cep")
+                ];
     }
     
     /**
@@ -116,8 +117,6 @@ class CarrinhoController extends Controller
 //            
 //            $tipoFrete = $arrayFrete[0];
             
-            $resultFrete = $this->calculaPreçoFrete($request->get("cep"), self::sedex);            
-            $valorFrete = str_replace(",", ".", str_replace(".", "", $resultFrete->CalcPrecoPrazoResult->Servicos->cServico->Valor));
             
             $em = $this->getDoctrine()->getManager();
             
@@ -126,11 +125,17 @@ class CarrinhoController extends Controller
             
             $pedido = new Pedido();
             $pedido->setCliente($em->find("NutrividaLojaBundle:Cliente", $user->getId()));
-            //$pedido->setTipoFrete($tipoFrete);
-            $pedido->setTipoFrete(self::sedex);
             
-            $pedido->setValorFrete($valorFrete);
-            
+            if ($request->get("retirar")) {
+                $pedido->setRetirarNaLoja(1);
+            } else {
+                $resultFrete = $this->calculaPreçoFrete($request->get("cep"), self::sedex);            
+                $valorFrete = str_replace(",", ".", str_replace(".", "", $resultFrete->CalcPrecoPrazoResult->Servicos->cServico->Valor));
+                //$pedido->setTipoFrete($tipoFrete);
+                $pedido->setTipoFrete(self::sedex);
+                $pedido->setValorFrete($valorFrete);
+            }
+
             $em->persist($pedido);
             
             foreach ($produtos as $produto) {
@@ -177,6 +182,7 @@ class CarrinhoController extends Controller
         $alturaTotal        = 0;
         $larguraTotal       = 0;
 
+        $this->get("session")->set("cep", $cep);
         $produtos   = $this->getProdutosCarrinho();
 
         foreach ($produtos as $produto) {

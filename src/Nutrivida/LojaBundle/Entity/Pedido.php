@@ -54,7 +54,7 @@ class Pedido
     /**
      * @var int
      *
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $tipoFrete = "";
 
@@ -62,9 +62,18 @@ class Pedido
     /**
      * @var float
      *
-     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="float", precision=10, scale=0, nullable=true)
      */
     private $valorFrete;
+    
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $retirarNaLoja = 0;
+
     
     
     public function __construct()
@@ -134,9 +143,15 @@ class Pedido
     {
         $this->produtosPedido = $produtosPedido;
     }
-
-
-
-
     
+    public function getRetirarNaLoja()
+    {
+        return $this->retirarNaLoja;
+    }
+
+    public function setRetirarNaLoja($retirarNaLoja)
+    {
+        $this->retirarNaLoja = $retirarNaLoja;
+    }
+   
 }
