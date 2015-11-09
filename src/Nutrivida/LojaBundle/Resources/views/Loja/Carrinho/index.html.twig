@@ -68,6 +68,7 @@
         //table.html(html);
         
         jQuery('#frete').text("R$ "+frete.Valor.toString());
+        jQuery('#prazo').text("Prazo de entrega "+frete.PrazoEntrega.toString()+" dia(s) úteis");
         
         var total = parseFloat(jQuery('#totalProdutos').val()) + moeda2float(frete.Valor.toString());
         
@@ -263,7 +264,9 @@
                                         <tr>
                                             <td colspan="2" >
                                                 <div class="input-append couponForm">
-                                                    <input class="col-lg-12" id="cep_frete" type="text" value="{{ cep }}" placeholder="Calcular Frete" >
+                                                    <input class="col-lg-09" id="cep_frete" type="text" value="{{ cep }}" placeholder="Calcular Frete" >
+                                                    <button class="col-lg-03 btn btn-primary">Ok</button>
+                                                    <h5 id="prazo"></h5>
                                                 </div>
                                             </td>
                                         </tr>

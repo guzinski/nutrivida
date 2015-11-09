@@ -51,8 +51,8 @@
                                 </a>
                             </div>
                             <div class="description">
-                                <h4><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">SNACK TEE </a></h4>
-                                <p>{{ produto.getNome }}</p>
+                                <h4><a href="{{ path('_loja_produto', {slugCategoria: produto.getCategorias.get(0).getSlug, slug: produto.getSlug}) }}">{{ produto.getNome }} </a></h4>
+                                <p>{{ produto.getDescricao|striptags|slice(0, 30) }} </p>
                             </div>
                             <div class="price"> <span>R$ {{ produto.getValor|number_format(2, ',', '.') }}</span> </div>
                             <div class="action-control">
@@ -102,9 +102,9 @@
                             </div>
                             <div class="description">
                                 <h4>
-                                    <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategorias.get(0).getSlug, slug: desconto.getSlug}) }}">Cranberry</a>
+                                    <a href="{{ path('_loja_produto', {slugCategoria: desconto.getCategorias.get(0).getSlug, slug: desconto.getSlug}) }}">{{ desconto.getNome }}</a>
                                 </h4>
-                                <p>{{ desconto.getNome }} </p>
+                                    <p>{{ desconto.getDescricao|striptags|slice(0, 30) }} </p>
                             </div>
                             <div class="price">
                                 <span>R$ {{ desconto.getValor|number_format(2, ',', '.') }}</span> 

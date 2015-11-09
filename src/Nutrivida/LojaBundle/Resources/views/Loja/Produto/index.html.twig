@@ -114,7 +114,7 @@
                 <div id="SimilarProductSlider">
                     {% for prod in categoria.getProdutos if prod.id != produto.id  %}
                     <div class="item">
-                        <div class="product"> <a class="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}" > <img src="{% path prod.getImagens.get(0).media, 'produto' %}"  alt="img"> </a>
+                        <div class="product"> <a class="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}" > <img width="212px" src="{% path prod.getImagens.get(0).media, 'produto' %}"  alt="img"> </a>
                             <div class="description">
                                 <h4><a href="{{ path('_loja_produto', {slugCategoria: categoria.getSlug, slug: prod.getSlug}) }}">{{ prod.nome }}</a></h4>
                                 <div class="price"> <span>R${{ prod.valor|number_format(2, ',', '.') }}</span> </div>
@@ -134,85 +134,8 @@
 
         <div class="gap"></div>
 
-    
-    
-{#        <ul class="breadcrumbs">
-            <div class="container">
-                <li class="home">
-                    <a href="{{ path('_loja_index') }}" title="Home"><img src="{{ asset('bundles/nutrividaloja/loja/images/home.png') }}" alt=""/></a>&nbsp;&nbsp;
-                    <span>&gt;</span>&nbsp;
-                </li>
-                <li class="home">
-                    Produtos&nbsp; 
-                    <span>&gt;</span>
-                </li>
-                <li class="home">
-                    {{ produto.categoria.nome }}&nbsp; 
-                    <span>&gt;</span>
-                </li>
-                <li class="home">
-                    <span class="red">&nbsp;{{ produto.nome }}&nbsp;</span>
-                </li>
-            </div>
-        </ul>
-        <div class="single_top">
-            <div class="container"> 
-                <div class="single_grid">
-                    <div class="grid images_3_of_2">
-                        <ul id="etalage">
-                            {% for imagem in produto.getImagens %}
-                            <li>
-                                <img class="etalage_thumb_image" src="{% path imagem.media, 'produto' %}" class="img-responsive" />
-                                <img class="etalage_source_image" src="{% path imagem.media, 'produto' %}" class="img-responsive" title="" />
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        <div class="clearfix"></div>		
-                    </div> 
-                    <div class="desc1 span_3_of_2">
-                        <ul class="back">
-                            <li><i class="back_arrow"> </i><a href="javascript:history.back()">VOLTAR</a></li>
-                        </ul>
-                        <h1>{{ produto.nome }}</h1>
-                        <ul class="price_single">
-                            <li class="head"><h2>R$ {{ produto.valor|number_format(2, ',', '.') }}</h2></li>
-                            <div class="clearfix"></div>
-                        </ul>
-                        <p>{{ produto.descricao|nl2br }}</p>
-                        <br/><br/>
-                        <a href="javascript:adicionarCarrinho({{ produto.getId }})" class="btn1 btn2 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="m_4"><span class="left_line2"> </span><p>produtos relacionados</p><span class="right_line2"> </span></div>
-            <div class="content_bottom">
-                <div class="container">
-                    <ul class="grid1">
-                        {% for prod in produto.getCategoria.getProdutos if prod != produto and prod.ativo %}
-                        <li class="grid1_last">
-                            <div class="view view-first">
-                                <a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">
-                                    <img style="width: 260x; height: 330px;" src="{% path prod.getImagens.get(0).media, 'produto' %}" class="img-responsive" alt="">
-                                </a>
-                                <div class="tab_desc">
-                                    <h3><a href="{{ path('_loja_produto', {slugCategoria: prod.getCategoria.getSlug, slug: prod.getSlug}) }}">{{ prod.nome }}</a></h3>
-                                    <p>R$ {{ prod.valor|number_format(2, ',', '.') }}</p>
-                                    <a href="javascript:adicionarCarrinho({{ prod.getId }})" class="btn1 btn-primary1"><span>adicionar</span><img src="{{ asset('bundles/nutrividaloja/loja/images/plus.png') }}" alt=""></a>
-                                </div>
-                            </div>
-                                {% if prod.desconto %}
-                                    <div class="sale-box1"> </div>
-                                {% endif %}
-                        </li>
-                        {% endfor %}
-                        <div class="clearfix"> </div>
-                    </ul>
-                </div>
-            </div>
-        </div>#}
 
-            <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/smoothproducts.min.js') }}"></script>
+        <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/smoothproducts.min.js') }}"></script>
         <script src="{{ asset('bundles/nutrividaloja/loja/assets/js/smoothproducts-thumb.min.js') }}"></script>
 
 
