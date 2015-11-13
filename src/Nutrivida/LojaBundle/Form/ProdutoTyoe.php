@@ -22,6 +22,7 @@ class ProdutoTyoe extends AbstractType
                 $builder->add('nome');
                 $builder->add('descricao', 'textarea', array("label"=> "Descrição"));
                 $builder->add('valor', 'money', array("currency"=>"", "grouping"=>false));
+                $builder->add('valorSemDesconto', 'money', array("currency"=>"", "grouping"=>false));
                 $builder->add('peso', 'money', array("currency" => "", "grouping" => false, "label" => "Peso do produto (com em balagem em Kg)"));
                 $builder->add('largura', 'money', array("currency"=>"", "grouping"=>false, "label" => "Largura da Embalagem em cm"));
                 $builder->add('comprimento', 'money', array("currency"=>"", "grouping"=>false, "label" => "Comprimento da Embalagem em cm"));

@@ -108,7 +108,7 @@
                             </div>
                             <div class="price">
                                 <span>R$ {{ desconto.getValor|number_format(2, ',', '.') }}</span> 
-                                <span class="old-price">R$ {{ (desconto.getValor*1.2)|number_format(2, ',', '.') }}</span> 
+                                <span class="old-price">R$ {{ (desconto.getValorSemDesconto)|number_format(2, ',', '.') }}</span> 
                             </div>
                             <div class="action-control">
                                 <a href="javascript:adicionarCarrinho({{ desconto.getId }})" class="btn btn-primary">

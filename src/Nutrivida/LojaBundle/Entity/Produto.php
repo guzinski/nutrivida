@@ -47,9 +47,16 @@ class Produto
     /**
      * @var float
      *
-     * @ORM\Column(type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valor;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $valorSemDesconto;
     
     /**
      * @var float
@@ -342,6 +349,17 @@ class Produto
     {
         $this->categorias = $categorias;
     }
+    
+    public function getValorSemDesconto()
+    {
+        return $this->valorSemDesconto;
+    }
+
+    public function setValorSemDesconto($valorSemDesconto)
+    {
+        $this->valorSemDesconto = $valorSemDesconto;
+    }
+
 
 
 

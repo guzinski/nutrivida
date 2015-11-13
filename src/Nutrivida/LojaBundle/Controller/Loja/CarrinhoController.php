@@ -184,9 +184,10 @@ class CarrinhoController extends Controller
 
         $this->get("session")->set("cep", $cep);
         $produtos   = $this->getProdutosCarrinho();
-
+        $carrinho = $this->getCarrinho();
+        
         foreach ($produtos as $produto) {
-            $pesoTotal += $produto->getPeso();
+            $pesoTotal += $produto->getPeso()*$carrinho[$produto->getId()];
             $comprimentoTotal += $produto->getComprimento();
             $alturaTotal += $produto->getAltura();
             $larguraTotal += $produto->getLargura();

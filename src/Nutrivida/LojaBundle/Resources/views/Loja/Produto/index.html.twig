@@ -49,7 +49,7 @@
                     <h1 class="product-title"> {{ produto.nome }}</h1>
                     <div class="product-price"> 
                         <span class="price-sales"> R${{ produto.valor|number_format(2, ',', '.') }}</span> 
-                        <span class="price-standard">R${{ (produto.valor*1.1)|number_format(2, ',', '.') }}</span> 
+                        <span class="price-standard">R${{ (produto.getValorSemDesconto)|number_format(2, ',', '.') }}</span> 
                     </div>
 
                     <div class="details-description">
